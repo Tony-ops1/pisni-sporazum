@@ -48,7 +48,7 @@ body.clean .field.hasValue, body.clean .area.hasValue { background:#fff !importa
 body.clean .sig { outline:none !important; background:transparent !important; }
 body.clean .sig button { opacity:0; }
 
-#workerModal, #elektroModal { position:fixed; inset:0; z-index:90; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.55); padding:12px; }
+#workerModal, #elektroModal, #siteModal { position:fixed; inset:0; z-index:90; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.55); padding:12px; }
 #workerBox { width:min(760px,96vw); max-height:90vh; overflow:auto; background:#fff; color:#111; border-radius:12px; padding:14px; box-shadow:0 12px 40px rgba(0,0,0,.35); }
 #workerBox h3 { margin:0 0 10px 0; }
 .workerForm { display:grid; grid-template-columns: 1fr auto; gap:8px; margin-bottom:10px; }
@@ -153,7 +153,7 @@ body.clean .sig button { opacity:0; }
 
 @media print {
   body { background:#fff; }
-  .toolbar, .help, .quickForm, #workerModal, #elektroModal, #contractorModal, #sigModal, .appendixPanel { display:none !important; }
+  .toolbar, .help, .quickForm, #workerModal, #elektroModal, #siteModal, #contractorModal, #sigModal, .appendixPanel { display:none !important; }
   .document { width:210mm; margin:0; }
   .page { margin:0; box-shadow:none; page-break-after:always; }
   .field, .area, .sig { border-color:transparent !important; background:transparent !important; }
@@ -193,6 +193,13 @@ body.clean .sig button { opacity:0; }
     <label>Objekt <input id="qObjekt" autocomplete="off"></label>
     <label>Kraj <input id="qKraj" autocomplete="off"></label>
     <label>Varnostni načrt št. <input id="qVarnostni" autocomplete="off"></label>
+  </div>
+  <div class="contractorPick" style="margin-top:9px">
+    <label>Izberi objekt/kraj iz nabora
+      <select id="qSiteSelect"><option value="">-- izberi objekt/kraj --</option></select>
+    </label>
+    <button type="button" onclick="saveCurrentSiteToPool()">Shrani objekt/kraj v nabor</button>
+    <button type="button" onclick="openSites()">Uredi nabor objektov</button>
   </div>
 
   <div class="quickSection">
@@ -251,7 +258,7 @@ body.clean .sig button { opacity:0; }
     <div class="quickHint">Privzeto je obkljukano osnovno zavarovanje ter delo v bližini elektro naprav. Kabli, nadzemni vodi, promet in višina se označijo samo, če zares velja za delovišče.</div>
   </div>
 
-  <div class="safeNote">Varno: v nabor se ne shranjujejo datumi rojstva in podpisi. Po izdelavi PDF klikni “Počisti osebne podatke”.</div>
+  <div class="safeNote">Varno: v nabore se ne shranjujejo datumi rojstva in podpisi. Po izdelavi PDF klikni “Počisti osebne podatke”.</div>
 
   <div class="quickButtons">
     <button class="primary" onclick="prepareFromQuickForm()">Pripravi dokument</button>
@@ -259,7 +266,24 @@ body.clean .sig button { opacity:0; }
   </div>
   <div class="quickHint">Najprej izpolni ta del in klikni <b>Pripravi dokument</b>. Elektro Ljubljana se vpiše kot naročnik. V spodnjo tabelo se prenese odgovorna oseba izvajalca, ostale delavce pa lahko dodaš iz nabora ali ročno. Po shranitvi PDF počisti osebne podatke.</div>
 </section>
-<div class="help">Varna mobilna verzija brez prilog 1–4: GitHub vsebuje samo prazno aplikacijo. Nabori hranijo samo podjetja, imena in telefone. Datumi rojstva in podpisi se uporabijo samo za trenutni PDF in se ne shranjujejo trajno.</div>
+<div class="help">Varna mobilna verzija brez prilog 1–4: GitHub vsebuje samo prazno aplikacijo. Nabori hranijo samo objekte/kraje, podjetja, imena in telefone. Datumi rojstva in podpisi se uporabijo samo za trenutni PDF in se ne shranjujejo trajno.</div>
+
+<div id="siteModal">
+  <div id="workerBox">
+    <h3>Nabor objektov in krajev</h3>
+    <div class="workerNote">Tukaj shraniš samo objekt in kraj. Brez osebnih podatkov, datumov rojstva in podpisov.</div>
+    <div class="contractorForm">
+      <input id="newSiteObjekt" placeholder="Objekt">
+      <input id="newSiteKraj" placeholder="Kraj">
+      <button onclick="addSiteToPool()">Dodaj</button>
+    </div>
+    <div id="siteList"></div>
+    <div class="workerActions">
+      <button class="primary" onclick="saveCurrentSiteToPool()">Shrani trenutni objekt/kraj</button>
+      <button onclick="closeSites()">Zapri</button>
+    </div>
+  </div>
+</div>
 
 <div id="workerModal">
   <div id="workerBox">
@@ -337,6 +361,7 @@ function initialState() {
     workerPool: [],
     elektroEmployeePool: [],
     contractorPool: [],
+    sitePool: [],
     quick: {
       datum:'', sporazumSt:'', narocilnica:'', objekt:'', kraj:'', varnostniNacrt:'',
       elVarnost:'', telElVarnost:'', usklajevalec:'', telUsklajevalec:'',
@@ -375,6 +400,7 @@ let state = loadState();
 state.contractorPool = sanitizeContractorPool(state.contractorPool);
 state.workerPool = sanitizeWorkerPool(state.workerPool);
 state.elektroEmployeePool = sanitizeElektroEmployeePool(state.elektroEmployeePool);
+state.sitePool = sanitizeSitePool(state.sitePool);
 function loadState() {
   try {
     const saved=localStorage.getItem(STORAGE_KEY);
@@ -400,6 +426,12 @@ function setPath(path, value) {
   const parts=path.split('.'); let o=state;
   for(let i=0;i<parts.length-1;i++) o=o[parts[i]];
   o[parts[parts.length-1]]=value; saveNow(false);
+}
+function sanitizeSitePool(pool) {
+  return (Array.isArray(pool) ? pool : []).map(s => ({
+    objekt: cleanText(s?.objekt || s?.object),
+    kraj: cleanText(s?.kraj || s?.place)
+  })).filter(s => s.objekt || s.kraj);
 }
 function sanitizeContractorPool(pool) {
   return (Array.isArray(pool) ? pool : []).map(c => ({
@@ -427,12 +459,13 @@ function persistentState() {
   return {
     contractorPool: sanitizeContractorPool(state.contractorPool),
     workerPool: sanitizeWorkerPool(state.workerPool),
-    elektroEmployeePool: sanitizeElektroEmployeePool(state.elektroEmployeePool)
+    elektroEmployeePool: sanitizeElektroEmployeePool(state.elektroEmployeePool),
+    sitePool: sanitizeSitePool(state.sitePool)
   };
 }
 function saveNow(alertUser=true) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persistentState())); } catch(e) {}
-  if(alertUser) flash('Shranjeno: nabor izvajalcev, delavcev izvajalca in naših zaposlenih. Ob novem odpiranju je obrazec prazen.');
+  if(alertUser) flash('Shranjeno: nabor objektov/krajev, izvajalcev, delavcev izvajalca in naših zaposlenih. Ob novem odpiranju je obrazec prazen.');
 }
 function flash(msg) { const d=document.createElement('div'); d.textContent=msg; d.style.cssText='position:fixed;right:15px;bottom:15px;background:#111827;color:white;padding:10px 14px;border-radius:8px;z-index:200;'; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }
 function pct(n,total) { return (n/total*100).toFixed(4)+'%'; }
@@ -815,6 +848,91 @@ function renderContractorList() {
     list.appendChild(row);
   });
 }
+
+function normalizeSitePool() { state.sitePool=sanitizeSitePool(state.sitePool); }
+function siteLabel(s) {
+  const o=cleanText(s.objekt), k=cleanText(s.kraj);
+  return o && k ? `${o} — ${k}` : (o || k || 'Objekt/kraj');
+}
+function currentSiteFromQuick() {
+  return { objekt: cleanText(state.quick?.objekt), kraj: cleanText(state.quick?.kraj) };
+}
+function renderSiteSelect() {
+  normalizeSitePool();
+  const sel=document.getElementById('qSiteSelect');
+  if(!sel) return;
+  const curObj=cleanText(state.quick?.objekt).toLowerCase();
+  const curKraj=cleanText(state.quick?.kraj).toLowerCase();
+  sel.innerHTML='<option value="">-- izberi objekt/kraj --</option>';
+  state.sitePool.forEach((s,i)=>{
+    const opt=document.createElement('option');
+    opt.value=String(i);
+    opt.textContent=siteLabel(s);
+    sel.appendChild(opt);
+  });
+  const found=state.sitePool.findIndex(s => cleanText(s.objekt).toLowerCase()===curObj && cleanText(s.kraj).toLowerCase()===curKraj);
+  sel.value = found>=0 ? String(found) : '';
+}
+function bindSiteControls() {
+  const sel=document.getElementById('qSiteSelect');
+  if(sel) sel.addEventListener('change', ()=>{ if(sel.value!=='') applySiteFromPool(Number(sel.value)); });
+}
+function applySiteFromPool(i) {
+  normalizeSitePool();
+  const s=state.sitePool[i];
+  if(!s) return;
+  state.quick.objekt=s.objekt||'';
+  state.quick.kraj=s.kraj||'';
+  state.quick.krajPodpis=s.kraj||state.quick.krajPodpis||'';
+  saveNow(false);
+  syncQuickForm();
+  flash('Objekt in kraj sta izbrana iz nabora.');
+}
+function saveCurrentSiteToPool() {
+  normalizeSitePool();
+  const s=currentSiteFromQuick();
+  if(!s.objekt && !s.kraj) { alert('Najprej vpiši objekt ali kraj.'); return; }
+  const idx=state.sitePool.findIndex(x => cleanText(x.objekt).toLowerCase()===s.objekt.toLowerCase() && cleanText(x.kraj).toLowerCase()===s.kraj.toLowerCase());
+  if(idx>=0) state.sitePool[idx]=s;
+  else state.sitePool.push(s);
+  saveNow(false);
+  renderSiteSelect();
+  renderSiteList();
+  flash(idx>=0 ? 'Objekt/kraj v naboru je posodobljen.' : 'Objekt/kraj je dodan v nabor.');
+}
+function openSites() { document.getElementById('siteModal').style.display='flex'; renderSiteList(); }
+function closeSites() { document.getElementById('siteModal').style.display='none'; }
+function addSiteToPool() {
+  normalizeSitePool();
+  const s={
+    objekt: cleanText(document.getElementById('newSiteObjekt')?.value),
+    kraj: cleanText(document.getElementById('newSiteKraj')?.value)
+  };
+  if(!s.objekt && !s.kraj) { alert('Vpiši objekt ali kraj.'); return; }
+  state.sitePool.push(s);
+  ['newSiteObjekt','newSiteKraj'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  saveNow(false);
+  renderSiteSelect();
+  renderSiteList();
+}
+function renderSiteList() {
+  normalizeSitePool();
+  const list=document.getElementById('siteList');
+  if(!list) return;
+  list.innerHTML='';
+  if(state.sitePool.length===0) {
+    const empty=document.createElement('div'); empty.className='workerNote'; empty.textContent='Nabor objektov/krajev je prazen. Dodaj objekt zgoraj ali shrani trenutnega iz obrazca.'; list.appendChild(empty); return;
+  }
+  state.sitePool.forEach((s,i)=>{
+    const row=document.createElement('div'); row.className='contractorRow';
+    const obj=document.createElement('input'); obj.type='text'; obj.value=s.objekt||''; obj.placeholder='Objekt'; obj.oninput=()=>{s.objekt=obj.value; saveNow(false); renderSiteSelect();};
+    const kraj=document.createElement('input'); kraj.type='text'; kraj.value=s.kraj||''; kraj.placeholder='Kraj'; kraj.oninput=()=>{s.kraj=kraj.value; saveNow(false); renderSiteSelect();};
+    const use=document.createElement('button'); use.textContent='Uporabi'; use.onclick=()=>{ applySiteFromPool(i); closeSites(); };
+    const del=document.createElement('button'); del.textContent='Briši'; del.onclick=()=>{ if(confirm('Brišem ta objekt/kraj iz nabora?')) { state.sitePool.splice(i,1); saveNow(false); renderSiteSelect(); renderSiteList(); } };
+    [obj,kraj,use,del].forEach(el=>row.appendChild(el));
+    list.appendChild(row);
+  });
+}
 function toggleAppendices() { flash('Priloge 1–4 so odstranjene iz aplikacije, da je datoteka manjša. Hrani jih ločeno kot PDF v OneDrive.'); }
 function toggleClean() { document.body.classList.toggle('clean'); }
 function clearSensitiveData() {
@@ -822,14 +940,16 @@ function clearSensitiveData() {
   const contractorPool=sanitizeContractorPool(state.contractorPool);
   const workerPool=sanitizeWorkerPool(state.workerPool);
   const elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool);
+  const sitePool=sanitizeSitePool(state.sitePool);
   const keepUkrep={...(state.ukrepOptions || {})};
   state=initialState();
   state.contractorPool=contractorPool;
   state.workerPool=workerPool;
   state.elektroEmployeePool=elektroEmployeePool;
+  state.sitePool=sitePool;
   state.ukrepOptions={...state.ukrepOptions, ...keepUkrep};
   saveNow(false);
-  render(); syncQuickForm(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
+  render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
   flash('Osebni podatki trenutnega sporazuma so počiščeni. Nabori ostanejo.');
 }
 function clearAll() { clearSensitiveData(); }
@@ -837,7 +957,7 @@ function clearEverything() {
   if(confirm('Res pobrišem tudi vse nabore in vse nastavitve?')) {
     state=initialState();
     try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-    render(); syncQuickForm(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
+    render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
     flash('Vse je počiščeno.');
   }
 }
@@ -856,7 +976,7 @@ function exportData() {
 }
 function importData(evt) {
   const f=evt.target.files[0]; if(!f) return;
-  const r=new FileReader(); r.onload=()=>{ try { state=mergeDeep(initialState(), JSON.parse(r.result)); state.contractorPool=sanitizeContractorPool(state.contractorPool); state.workerPool=sanitizeWorkerPool(state.workerPool); state.elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool); saveNow(false); render(); syncQuickForm(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect(); flash('Uvoženi so samo nabori brez podpisov in rojstev.'); } catch(e) { alert('JSON ni pravilen.'); } }; r.readAsText(f); evt.target.value='';
+  const r=new FileReader(); r.onload=()=>{ try { state=mergeDeep(initialState(), JSON.parse(r.result)); state.contractorPool=sanitizeContractorPool(state.contractorPool); state.workerPool=sanitizeWorkerPool(state.workerPool); state.elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool); state.sitePool=sanitizeSitePool(state.sitePool); saveNow(false); render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect(); flash('Uvoženi so samo nabori brez podpisov in rojstev.'); } catch(e) { alert('JSON ni pravilen.'); } }; r.readAsText(f); evt.target.value='';
 }
 
 function fmtToday() {
@@ -1026,6 +1146,7 @@ function syncQuickForm() {
   });
   const checks={uOsnovno:'osnovno', uPromet:'promet', uVisina:'visina', uNaprave:'naprave', uPodNapetostjo:'podNapetostjo', uKabli:'kabli', uNadzemni:'nadzemni'};
   Object.entries(checks).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) el.checked=!!state.ukrepOptions[key]; });
+  renderSiteSelect();
   renderContractorSelect();
 }
 function applyRecommendedChecks() {
@@ -1105,8 +1226,10 @@ window.addEventListener('resize', ()=>setTimeout(applyMobileZoom, 80));
 
 bindQuickForm();
 bindElektroEmployeeSelect();
+bindSiteControls();
 bindContractorControls();
 renderElektroEmployeeSelect();
+renderSiteSelect();
 renderContractorSelect();
 renderWorkerSelect();
 render();
