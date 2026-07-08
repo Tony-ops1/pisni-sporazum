@@ -32,6 +32,7 @@ body { margin:0; background:#d7d7d7; font-family: Arial, Helvetica, sans-serif; 
 .area { white-space:pre-wrap; padding-top:1mm; }
 .sig { position:absolute; z-index:6; border:0; background:transparent; overflow:hidden; display:flex; align-items:center; justify-content:center; }
 .sig img { max-width:100%; max-height:100%; object-fit:contain; }
+.whiteout { position:absolute; z-index:4; background:#fff; pointer-events:none; }
 .field:hover, .area:hover { outline:0 !important; border:0 !important; box-shadow:none !important; background:transparent; }
 .field.hasValue:hover, .field.hasValue:focus, .area.hasValue:hover, .area.hasValue:focus { background:#fff !important; }
 .sig:hover { outline:none; background:transparent; }
@@ -518,6 +519,9 @@ function addArea(page, path, x,y,w,h, cls='') {
   ta.classList.toggle('hasValue', !!ta.value);
   ta.addEventListener('input', e=>{ setPath(path,e.target.value); e.target.classList.toggle('hasValue', !!e.target.value); }); page.appendChild(ta); return ta;
 }
+function addWhite(page, x,y,w,h) {
+  const d=document.createElement('div'); d.className='whiteout'; d.style.cssText=styleBox(x,y,w,h); page.appendChild(d); return d;
+}
 function addSig(page, path, x,y,w,h, label='Podpis') {
   const div=document.createElement('div'); div.className='sig'; div.style.cssText=styleBox(x,y,w,h); div.dataset.path=path;
   div.title='Klikni tukaj za podpis';
@@ -621,6 +625,7 @@ function render() {
   }
   addInput(p7, 'p7.krajPodpis', 98, 1210, 190, 22, 'small center linefield');
   addInput(p7, 'p7.datumPodpis', 318, 1210, 105, 22, 'small center linefield');
+  addWhite(p7, 555, 1261, 300, 68);
   addSig(p7, 'p7.podpisOdgovornega', 568, 1267, 260, 53, 'PODPIS');
 }
 
