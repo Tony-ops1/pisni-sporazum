@@ -1273,9 +1273,12 @@ function prepareFromQuickForm() {
   // UKREPI, stran 6.
   state.p6.sporazumSt=q.sporazumSt||'';
   applyRecommendedChecks();
-  if(!state.p6.ukrepIzvede1) state.p6.ukrepIzvede1='NAROČNIK - ELEKTRO LJUBLJANA';
-  state.p6.odgovornaOseba=q.elVarnost || q.usklajevalec || '';
-  state.p6.ukrepIzvede2=q.odgovornaIzvajalca ? ('OSEBA ZA ZAVAROVANJE DELOVIŠČA - '+q.odgovornaIzvajalca) : 'OSEBA ZA ZAVAROVANJE DELOVIŠČA';
+  // Na strani ukrepov mora biti pri 'Ukrep izvede' naš delavec Elektro Ljubljana.
+  // To velja pri osnovnem zavarovanju delovišča in pri 6. vrstici / delu pri elektro napravah.
+  const elektroUkrep=q.elVarnost || q.usklajevalec || '';
+  state.p6.ukrepIzvede1=elektroUkrep;
+  state.p6.odgovornaOseba=elektroUkrep;
+  state.p6.ukrepIzvede2=elektroUkrep;
 
   // ZADNJI LIST, stran 7.
   state.p7.objekt=q.objekt||'';
