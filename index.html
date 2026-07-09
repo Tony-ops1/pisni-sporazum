@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pisni sporazum - Elektro Ljubljana teren </title>
+<title>Pisni sporazum - Elektro Ljubljana teren - MOBILNO VARNO</title>
 <style>
 :root { --paper-w: 210mm; --paper-h: 297mm; }
 * { box-sizing: border-box; }
@@ -23,14 +23,14 @@ body { margin:0; background:#d7d7d7; font-family: Arial, Helvetica, sans-serif; 
 .document { width: min(100%, 230mm); margin: 14px auto 40px auto; }
 .page { position:relative; width:var(--paper-w); height:var(--paper-h); margin:0 auto 12px auto; background:#fff; box-shadow:0 0 8px rgba(0,0,0,.35); overflow:hidden; page-break-after: always; }
 .page > img.bg { position:absolute; left:0; top:0; width:100%; height:100%; z-index:0; }
-.field, .area { position:absolute; z-index:5; border:0 !important; outline:0 !important; box-shadow:none !important; background:transparent; padding:0 1.2mm; font-family:Arial, Helvetica, sans-serif; font-size:10pt; line-height:1.15; min-width:1mm; resize:none; overflow:hidden; -webkit-appearance:none; appearance:none; }
+.field, .area { position:absolute; z-index:5; border:0 !important; outline:0 !important; box-shadow:none !important; background:transparent; padding:0 1.2mm; font-family:Arial, Helvetica, sans-serif; font-size:10.6pt; line-height:1.18; font-weight:500; color:#000; min-width:1mm; resize:none; overflow:hidden; -webkit-appearance:none; appearance:none; }
 .field.hasValue, .area.hasValue { background:#fff; }
 .field.center { text-align:center; }
-.field.small { font-size:9pt; }
-.field.tiny { font-size:8pt; }
-.field.tableDate { font-size:7.4pt; letter-spacing:-0.2px; }
+.field.small { font-size:10pt; }
+.field.tiny { font-size:9pt; }
+.field.tableDate { font-size:8.8pt; letter-spacing:0; }
 .field.finalPlace { text-align:left; padding-left:2mm; }
-.field.finalDate { font-size:8.4pt; letter-spacing:-0.15px; }
+.field.finalDate { font-size:9.2pt; letter-spacing:0; }
 .field.linefield { padding:0 1mm; line-height:1.05; }
 .area { white-space:pre-wrap; padding-top:1mm; }
 .sig { position:absolute; z-index:6; border:0; background:transparent; overflow:hidden; display:flex; align-items:center; justify-content:center; }
@@ -137,9 +137,9 @@ body.clean .sig button { opacity:0; }
     height:calc((100vw - 12px) * 1.4142857) !important;
     margin:0 auto 10px auto !important;
   }
-  .field, .area { font-size:clamp(6px, 1.7vw, 10pt); }
-  .field.small { font-size:clamp(5.5px, 1.55vw, 9pt); }
-  .field.tiny { font-size:clamp(5px, 1.35vw, 8pt); }
+  .field, .area { font-size:clamp(6.4px, 1.78vw, 10.6pt); }
+  .field.small { font-size:clamp(6px, 1.66vw, 10pt); }
+  .field.tiny { font-size:clamp(5.6px, 1.48vw, 9pt); }
 
   #workerBox { width:96vw; padding:10px; }
   .workerForm { grid-template-columns:1fr; }
@@ -175,7 +175,12 @@ body.clean .sig button { opacity:0; }
 @media (max-width: 900px) { .document { transform-origin: top center; } .toolbar small { flex-basis:100%; } }
 
 @media print {
-  .field.linefield { line-height:1.05 !important; padding-top:0 !important; }
+  .field, .area { font-size:10.6pt !important; line-height:1.18 !important; font-weight:500 !important; }
+  .field.small { font-size:10pt !important; }
+  .field.tiny { font-size:9pt !important; }
+  .field.tableDate { font-size:8.8pt !important; letter-spacing:0 !important; }
+  .field.finalDate { font-size:9.2pt !important; letter-spacing:0 !important; }
+  .field.linefield { line-height:1.08 !important; padding-top:0 !important; }
 }
 
 /* signature-whiteout-v1 */
