@@ -28,11 +28,17 @@ body { margin:0; background:#d7d7d7; font-family: Arial, Helvetica, sans-serif; 
 .field.center { text-align:center; }
 .field.small { font-size:9pt; }
 .field.tiny { font-size:8pt; }
+.field.tableDate { font-size:7.4pt; letter-spacing:-0.2px; }
+.field.finalPlace { text-align:left; padding-left:2mm; }
+.field.finalDate { font-size:8.4pt; letter-spacing:-0.15px; }
 .field.linefield { padding:0 1mm; line-height:1.05; }
 .area { white-space:pre-wrap; padding-top:1mm; }
 .sig { position:absolute; z-index:6; border:0; background:transparent; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-.sig img { max-width:100%; max-height:100%; object-fit:contain; }
+.sig.hasSignature { background:transparent; }
+.sig img { max-width:95%; max-height:86%; object-fit:contain; }
 .whiteout { position:absolute; z-index:4; background:#fff; pointer-events:none; }
+.sigNoRows { position:absolute; z-index:4; background:#fff; pointer-events:none; border-left:1px solid #111; border-right:1px solid #111; border-bottom:1px solid #111; }
+.staticText { position:absolute; z-index:7; background:transparent; padding:0; font-family:Arial, Helvetica, sans-serif; font-size:10pt; line-height:1.15; color:#111; white-space:nowrap; }
 .field:hover, .area:hover { outline:0 !important; border:0 !important; box-shadow:none !important; background:transparent; }
 .field.hasValue:hover, .field.hasValue:focus, .area.hasValue:hover, .area.hasValue:focus { background:#fff !important; }
 .sig:hover { outline:none; background:transparent; }
@@ -156,9 +162,12 @@ body.clean .sig button { opacity:0; }
   body { background:#fff; }
   .toolbar, .help, .quickForm, #workerModal, #elektroModal, #siteModal, #contractorModal, #sigModal, .appendixPanel { display:none !important; }
   html, body { width:210mm; margin:0 !important; padding:0 !important; }
-  .document { width:210mm !important; max-width:210mm !important; margin:0 auto !important; padding:0 !important; overflow:visible !important; display:block !important; }
-  .page { width:210mm !important; height:297mm !important; margin:0 !important; box-shadow:none !important; page-break-after:always; break-after:page; overflow:hidden !important; transform:none !important; }
+  .document { width:210mm !important; max-width:210mm !important; margin:0 !important; padding:0 !important; overflow:visible !important; display:block !important; }
+  .page { width:210mm !important; height:297mm !important; margin:0 !important; box-shadow:none !important; page-break-after:auto !important; break-after:auto !important; page-break-inside:avoid !important; break-inside:avoid !important; overflow:hidden !important; transform:none !important; }
+  .page + .page { page-break-before:always !important; break-before:page !important; }
+  .page:last-child { page-break-after:auto !important; break-after:auto !important; }
   .field, .area, .sig { border-color:transparent !important; background:transparent !important; }
+  .sig.hasSignature { background:transparent !important; }
   .sig button { display:none !important; }
   @page { size: A4 portrait; margin:0; }
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -169,6 +178,7 @@ body.clean .sig button { opacity:0; }
   .field.linefield { line-height:1.05 !important; padding-top:0 !important; }
 }
 
+/* signature-whiteout-v1 */
 </style>
 </head>
 <body>
@@ -236,7 +246,7 @@ body.clean .sig button { opacity:0; }
       <button type="button" onclick="openContractors()">Uredi nabor izvajalcev</button>
     </div>
     <div class="quickGrid">
-      <label>Izvajalec del / podjetje <input id="qIzvajalec" autocomplete="off" placeholder="npr. Didograd, Gregor Didovič s.p."></label>
+      <label>Izvajalec del / podjetje <input id="qIzvajalec" autocomplete="off" placeholder="npr. Didograd s.p."></label>
       <label>Odgovorna oseba izvajalca <input id="qOdgovornaIzvajalca" autocomplete="off"></label>
       <label>Datum rojstva odgovorne osebe <input id="qOdgovornaIzvajalcaRojstvo" autocomplete="off" placeholder="samo za ta dokument; ne shrani se v nabor"></label>
       <label>Telefon odgovorne osebe <input id="qTelIzvajalca" autocomplete="off"></label>
@@ -368,6 +378,49 @@ const pageImages=["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+EAAAV8CAIAAAD
 const STORAGE_KEY='pisni_sporazum_elektro_lj_PRAZNO_OB_ODPIRANJU_v2';
 let currentSigPath=null;
 
+const DEFAULT_WORKER_POOL_VERSION='didograd_workers_v1';
+const DEFAULT_WORKER_POOL=[
+  {ime:'Lan Didovič', izbran:false},
+  {ime:'Hudak Rok', izbran:false},
+  {ime:'Štefan Didovič', izbran:false},
+  {ime:'Omer Rizvić', izbran:false},
+  {ime:'Adnan Iberčić', izbran:false},
+  {ime:'Domen Didovič', izbran:false},
+  {ime:'Luka Didovič', izbran:false}
+];
+const DEFAULT_CONTRACTOR_POOL_VERSION='didograd_contractors_v3';
+const DEFAULT_CONTRACTOR_POOL=[
+  {podjetje:'Didograd s.p.', odgovorna:'Lan Didovič', telefon:'040731799'},
+  {podjetje:'Didograd s.p.', odgovorna:'Štefan Didovič', telefon:'040731799'},
+  {podjetje:'Didograd s.p.', odgovorna:'Domen Didovič', telefon:'040731799'},
+  {podjetje:'Didograd s.p.', odgovorna:'Luka Didovič', telefon:'040731799'}
+];
+function seedDefaultWorkerPool() {
+  state.workerPool=sanitizeWorkerPool(state.workerPool);
+  if(state._defaultWorkerPoolVersion===DEFAULT_WORKER_POOL_VERSION) return;
+  DEFAULT_WORKER_POOL.forEach(d=>{
+    if(!state.workerPool.some(w=>normName(w.ime)===normName(d.ime))) {
+      state.workerPool.push({ime:d.ime, izbran:false});
+    }
+  });
+  state._defaultWorkerPoolVersion=DEFAULT_WORKER_POOL_VERSION;
+}
+function seedDefaultContractorPool() {
+  state.contractorPool=sanitizeContractorPool(state.contractorPool);
+  DEFAULT_CONTRACTOR_POOL.forEach(d=>{
+    const p=cleanText(d.podjetje).toLowerCase();
+    const o=cleanText(d.odgovorna).toLowerCase();
+    const idx=state.contractorPool.findIndex(c=>cleanText(c.podjetje).toLowerCase()===p && cleanText(c.odgovorna).toLowerCase()===o);
+    if(idx>=0) {
+      // Če je v brskalniku ostal star vnos brez telefona, ga dopolni.
+      if(!cleanText(state.contractorPool[idx].telefon)) state.contractorPool[idx].telefon=d.telefon || '';
+    } else {
+      state.contractorPool.push({podjetje:d.podjetje, odgovorna:d.odgovorna, telefon:d.telefon || ''});
+    }
+  });
+  state._defaultContractorPoolVersion=DEFAULT_CONTRACTOR_POOL_VERSION;
+}
+
 function blankRow() { return {datum:'', podjetje:'', oseba:'', telefon:'', podpis:''}; }
 function initialState() {
   return {
@@ -414,6 +467,9 @@ function initialState() {
 let state = loadState();
 state.contractorPool = sanitizeContractorPool(state.contractorPool);
 state.workerPool = sanitizeWorkerPool(state.workerPool);
+seedDefaultWorkerPool();
+seedDefaultContractorPool();
+saveNow(false);
 state.elektroEmployeePool = sanitizeElektroEmployeePool(state.elektroEmployeePool);
 state.sitePool = sanitizeSitePool(state.sitePool);
 state.objectPool = sanitizeTextPool(state.objectPool);
@@ -466,12 +522,25 @@ function uniqueClean(arr) {
   });
   return out;
 }
+function normalizeCompanyName(v) {
+  const t=cleanText(v);
+  if(t.toLowerCase().includes('didograd')) return 'Didograd s.p.';
+  return t;
+}
 function sanitizeContractorPool(pool) {
-  return (Array.isArray(pool) ? pool : []).map(c => ({
-    podjetje: cleanText(c?.podjetje),
+  const out=(Array.isArray(pool) ? pool : []).map(c => ({
+    podjetje: normalizeCompanyName(c?.podjetje),
     odgovorna: cleanText(c?.odgovorna),
     telefon: cleanText(c?.telefon)
   })).filter(c => c.podjetje);
+  // Združi podvojene vnose po podjetju in odgovorni osebi.
+  const seen=new Map();
+  out.forEach(c=>{
+    const key=(c.podjetje+'|'+c.odgovorna).toLowerCase();
+    if(!seen.has(key)) seen.set(key,c);
+    else if(c.telefon && !seen.get(key).telefon) seen.get(key).telefon=c.telefon;
+  });
+  return Array.from(seen.values());
 }
 function sanitizeWorkerPool(pool) {
   return (Array.isArray(pool) ? pool : []).map(w => ({
@@ -522,16 +591,23 @@ function addArea(page, path, x,y,w,h, cls='') {
 function addWhite(page, x,y,w,h) {
   const d=document.createElement('div'); d.className='whiteout'; d.style.cssText=styleBox(x,y,w,h); page.appendChild(d); return d;
 }
+function addSigNoRows(page, x,y,w,h) {
+  const d=document.createElement('div'); d.className='sigNoRows'; d.style.cssText=styleBox(x,y,w,h); page.appendChild(d); return d;
+}
+function addText(page, text, x,y,w,h, cls='') {
+  const d=document.createElement('div'); d.className='staticText '+cls; d.style.cssText=styleBox(x,y,w,h); d.textContent=text; page.appendChild(d); return d;
+}
 function addSig(page, path, x,y,w,h, label='Podpis') {
-  const div=document.createElement('div'); div.className='sig'; div.style.cssText=styleBox(x,y,w,h); div.dataset.path=path;
+  const val=getPath(path)||'';
+  const div=document.createElement('div'); div.className='sig'+(val?' hasSignature':''); div.style.cssText=styleBox(x,y,w,h); div.dataset.path=path;
   div.title='Klikni tukaj za podpis';
   div.onclick=(e)=>{e.preventDefault(); openSignature(path);};
-  const img=document.createElement('img'); img.style.display=getPath(path)?'block':'none'; img.src=getPath(path)||'';
+  const img=document.createElement('img'); img.style.display=val?'block':'none'; img.src=val;
   const btn=document.createElement('button'); btn.textContent=label; btn.onclick=(e)=>{e.preventDefault(); e.stopPropagation(); openSignature(path);};
   div.appendChild(img); div.appendChild(btn); page.appendChild(div); return div;
 }
 function refreshSignatures() {
-  document.querySelectorAll('.sig').forEach(div=>{ const val=getPath(div.dataset.path)||''; const img=div.querySelector('img'); img.src=val; img.style.display=val?'block':'none'; });
+  document.querySelectorAll('.sig').forEach(div=>{ const val=getPath(div.dataset.path)||''; const img=div.querySelector('img'); img.src=val; img.style.display=val?'block':'none'; div.classList.toggle('hasSignature', !!val); });
 }
 function addCheck(page, path, x,y,w=31,h=31) {
   const b=document.createElement('button'); b.className='checkhit'; b.style.cssText=styleBox(x,y,w,h); b.textContent=getPath(path)?'X':'';
@@ -579,7 +655,7 @@ function render() {
     const n=ylines.length-1;
     for(let i=0;i<n;i++) {
       const y1=ylines[i], y2=ylines[i+1], y=y1+4, h=y2-y1-7;
-      addInput(p5, `p5.${groupName}.${i}.datum`, c.datum[0], y, c.datum[1], h, 'center small');
+      addInput(p5, `p5.${groupName}.${i}.datum`, c.datum[0], y, c.datum[1], h, 'center tableDate');
       addInput(p5, `p5.${groupName}.${i}.podjetje`, c.podjetje[0], y, c.podjetje[1], h, 'center small');
       addInput(p5, `p5.${groupName}.${i}.oseba`, c.oseba[0], y, c.oseba[1], h, 'center small');
       addSig(p5, `p5.${groupName}.${i}.podpis`, c.podpis[0]+2, y1+2, c.podpis[1]-4, y2-y1-4, 'PODPIS');
@@ -614,17 +690,28 @@ function render() {
   addInput(p7, 'p7.izvajalec', 251, 327, 595, 22, 'small linefield');
   addInput(p7, 'p7.odgovornaTiskano', 95, 442, 270, 22, 'small linefield');
   addInput(p7, 'p7.varnostniNacrt', 238, 755, 130, 23, 'small center');
-  addInput(p7, 'p7.izdelal', 430, 755, 260, 23, 'small');
-  addInput(p7, 'p7.datumNacrt', 748, 755, 100, 23, 'small center');
+  // Prekrij pikčaste črte za polji Izdelal in Datum, nato besedo Datum izpiši na novo, da se ne odreže.
+  addWhite(p7, 426, 752, 270, 28);
+  addInput(p7, 'p7.izdelal', 430, 755, 255, 23, 'small');
+  addWhite(p7, 695, 752, 175, 28);
+  addText(p7, 'Datum:', 705, 756, 58, 20, 'small');
+  addInput(p7, 'p7.datumNacrt', 764, 755, 100, 23, 'small center');
   const rowLines=[843,870,897,924,951,978,1005,1033,1060,1087,1114];
+  // V stolpcu "Podpis delavca" odstranimo samo vmesne vodoravne črte,
+  // da podpisi ne delujejo kot prilepljeni čez črte. Ostali stolpci ostanejo z vrsticami.
+  // Ne brišemo več vmesnih črt v stolpcu podpisov; ostane originalna tabela.
   for(let i=0;i<10;i++) {
     const y1=rowLines[i], y2=rowLines[i+1], y=y1+5, h=y2-y1-10;
     addInput(p7, `p7.delavci.${i}.ime`, 167, y, 255, h, 'small');
     addInput(p7, `p7.delavci.${i}.rojstvo`, 428, y, 125, h, 'small center');
     addSig(p7, `p7.delavci.${i}.podpis`, 558, y1+1, 300, y2-y1-2, 'PODPIS');
   }
-  addInput(p7, 'p7.krajPodpis', 98, 1210, 190, 22, 'small center linefield');
-  addInput(p7, 'p7.datumPodpis', 318, 1210, 105, 22, 'small center linefield');
+  // Spodaj pri "V ______, dne ______" naredimo čisto vrstico brez ostankov pik/znakov iz skena.
+  addWhite(p7, 70, 1205, 415, 34);
+  addText(p7, 'V', 82, 1212, 18, 20, 'small');
+  addInput(p7, 'p7.krajPodpis', 100, 1211, 170, 20, 'small linefield finalPlace');
+  addText(p7, ', dne', 275, 1212, 42, 20, 'small');
+  addInput(p7, 'p7.datumPodpis', 320, 1211, 118, 20, 'center linefield finalDate');
   addWhite(p7, 555, 1261, 300, 68);
   addSig(p7, 'p7.podpisOdgovornega', 568, 1267, 260, 53, 'PODPIS');
 }
@@ -796,7 +883,7 @@ function currentContractorFromQuick() {
   readQuickForm();
   const q=state.quick;
   return {
-    podjetje: cleanText(q.izvajalec),
+    podjetje: normalizeCompanyName(q.izvajalec),
     odgovorna: cleanText(q.odgovornaIzvajalca),
     telefon: cleanText(q.telIzvajalca)
   };
@@ -831,10 +918,13 @@ function applyContractorFromPool(i) {
   normalizeContractorPool();
   const c=state.contractorPool[i];
   if(!c) return;
-  state.quick.izvajalec=c.podjetje||'';
+  state.quick.izvajalec=normalizeCompanyName(c.podjetje)||'';
   state.quick.odgovornaIzvajalca=c.odgovorna||'';
   state.quick.odgovornaIzvajalcaRojstvo=''; // datum rojstva se zaradi varnosti ne hrani v naboru
   state.quick.telIzvajalca=c.telefon||'';
+  if(!state.quick.telIzvajalca && cleanText(c.podjetje).toLowerCase().includes('didograd') && cleanText(c.odgovorna).toLowerCase().includes('didovič')) {
+    state.quick.telIzvajalca='040731799';
+  }
   saveNow(false);
   syncQuickForm();
   flash('Izvajalec je izbran iz nabora.');
@@ -935,8 +1025,9 @@ function applyPlaceFromPool(i) {
   normalizeSitePool();
   const v=state.placePool[i];
   if(!v) return;
+  const oldKraj=state.quick.kraj || '';
   state.quick.kraj=v;
-  state.quick.krajPodpis=v || state.quick.krajPodpis || '';
+  state.quick.krajPodpis=v;
   saveNow(false);
   syncQuickForm();
   flash('Kraj je izbran iz nabora.');
@@ -1052,6 +1143,9 @@ function clearEverything() {
   if(confirm('Res pobrišem tudi vse nabore in vse nastavitve?')) {
     state=initialState();
     try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    seedDefaultWorkerPool();
+    seedDefaultContractorPool();
+    saveNow(false);
     render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
     flash('Vse je počiščeno.');
   }
@@ -1071,7 +1165,7 @@ function exportData() {
 }
 function importData(evt) {
   const f=evt.target.files[0]; if(!f) return;
-  const r=new FileReader(); r.onload=()=>{ try { state=mergeDeep(initialState(), JSON.parse(r.result)); state.contractorPool=sanitizeContractorPool(state.contractorPool); state.workerPool=sanitizeWorkerPool(state.workerPool); state.elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool); state.sitePool=sanitizeSitePool(state.sitePool); state.objectPool=sanitizeTextPool(state.objectPool); state.placePool=sanitizeTextPool(state.placePool); if((!state.objectPool || state.objectPool.length===0) && state.sitePool.length) state.objectPool=uniqueClean(state.sitePool.map(s=>s.objekt)); if((!state.placePool || state.placePool.length===0) && state.sitePool.length) state.placePool=uniqueClean(state.sitePool.map(s=>s.kraj)); saveNow(false); render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect(); flash('Uvožen je osnutek in nabori. Po PDF klikni “Počisti osebne podatke”.'); } catch(e) { alert('JSON ni pravilen.'); } }; r.readAsText(f); evt.target.value='';
+  const r=new FileReader(); r.onload=()=>{ try { state=mergeDeep(initialState(), JSON.parse(r.result)); state.contractorPool=sanitizeContractorPool(state.contractorPool); state.workerPool=sanitizeWorkerPool(state.workerPool); state.elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool); state.sitePool=sanitizeSitePool(state.sitePool); state.objectPool=sanitizeTextPool(state.objectPool); state.placePool=sanitizeTextPool(state.placePool); if((!state.objectPool || state.objectPool.length===0) && state.sitePool.length) state.objectPool=uniqueClean(state.sitePool.map(s=>s.objekt)); if((!state.placePool || state.placePool.length===0) && state.sitePool.length) state.placePool=uniqueClean(state.sitePool.map(s=>s.kraj)); seedDefaultWorkerPool(); seedDefaultContractorPool(); saveNow(false); render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect(); flash('Uvožen je osnutek in nabori. Po PDF klikni “Počisti osebne podatke”.'); } catch(e) { alert('JSON ni pravilen.'); } }; r.readAsText(f); evt.target.value='';
 }
 
 function fmtToday() {
@@ -1137,16 +1231,28 @@ function openSignature(path) {
   if(existing) { const img=new Image(); img.onload=()=>ctx.drawImage(img,0,0,canvas.width,canvas.height); img.src=existing; }
 }
 function closeSignature() { modal.style.display='none'; currentSigPath=null; }
-function clearSignatureCanvas() { ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#111'; ctx.lineWidth=4; ctx.lineCap='round'; ctx.lineJoin='round'; }
+function clearSignatureCanvas() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#111'; ctx.lineWidth=4; ctx.lineCap='round'; ctx.lineJoin='round'; }
 function pt(e) { const r=canvas.getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left)*canvas.width/r.width, y:(t.clientY-r.top)*canvas.height/r.height}; }
 function startDraw(e) { e.preventDefault(); drawing=true; last=pt(e); }
 function moveDraw(e) { if(!drawing) return; e.preventDefault(); const p=pt(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); last=p; }
 function endDraw(e) { drawing=false; last=null; }
 canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', moveDraw); window.addEventListener('mouseup', endDraw);
 canvas.addEventListener('touchstart', startDraw, {passive:false}); canvas.addEventListener('touchmove', moveDraw, {passive:false}); canvas.addEventListener('touchend', endDraw);
+
+function signatureToTransparentDataUrl() {
+  // Bele piksle iz platna podpisa naredimo prosojne, da podpis ne prekrije tabelnih črt kot bel pravokotnik.
+  const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const d=img.data;
+  for(let i=0;i<d.length;i+=4) {
+    if(d[i]>245 && d[i+1]>245 && d[i+2]>245) d[i+3]=0;
+  }
+  ctx.putImageData(img,0,0);
+  return canvas.toDataURL('image/png');
+}
+
 function saveSignature() {
   if(!currentSigPath) return;
-  const dataUrl=canvas.toDataURL('image/png');
+  const dataUrl=signatureToTransparentDataUrl();
   setPath(currentSigPath, dataUrl);
   applySignatureForSamePerson(currentSigPath, dataUrl);
   refreshSignatures();
@@ -1192,6 +1298,19 @@ function syncElektroSamePerson() {
   if(uskEl) uskEl.value=name;
   if(uskTelEl) uskTelEl.value=tel;
 }
+function syncKrajPodpisFromKraj(oldKraj='', force=false) {
+  const krajEl=document.getElementById('qKraj');
+  const krajPodpisEl=document.getElementById('qKrajPodpis');
+  const newKraj=cleanText(krajEl ? krajEl.value : state.quick.kraj);
+  const current=cleanText(krajPodpisEl ? krajPodpisEl.value : state.quick.krajPodpis);
+  const old=cleanText(oldKraj);
+  // Samodejno prepiši kraj podpisa, dokler ga uporabnik ni ročno spremenil.
+  if(force || !current || (old && current.toLowerCase()===old.toLowerCase())) {
+    state.quick.krajPodpis=newKraj;
+    if(krajPodpisEl) krajPodpisEl.value=newKraj;
+  }
+}
+
 function readQuickForm() {
   syncElektroSamePerson();
   const inputs={
@@ -1204,6 +1323,8 @@ function readQuickForm() {
     if(!el) return;
     state.quick[key]=(id==='qDatum') ? (el.value || '') : el.value;
   });
+  state.quick.izvajalec=normalizeCompanyName(state.quick.izvajalec);
+  if(!cleanText(state.quick.krajPodpis) && cleanText(state.quick.kraj)) state.quick.krajPodpis=state.quick.kraj;
   const checks={uOsnovno:'osnovno', uPromet:'promet', uVisina:'visina', uNaprave:'naprave', uPodNapetostjo:'podNapetostjo', uKabli:'kabli', uNadzemni:'nadzemni'};
   Object.entries(checks).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) state.ukrepOptions[key]=!!el.checked; });
   saveNow(false);
@@ -1218,7 +1339,13 @@ function bindQuickForm() {
     const el=document.getElementById(id);
     if(!el) return;
     el.value=(id==='qDatum') ? toIsoDate(state.quick[key]) : (state.quick[key]||'');
-    el.addEventListener('input', ()=>{ state.quick[key]=(id==='qDatum') ? (el.value || '') : el.value; if(id==='qElVarnost' || id==='qTelElVarnost') syncElektroSamePerson(); saveNow(false); });
+    el.addEventListener('input', ()=>{
+      const oldKraj=state.quick.kraj || '';
+      state.quick[key]=(id==='qDatum') ? (el.value || '') : el.value;
+      if(id==='qKraj') syncKrajPodpisFromKraj(oldKraj);
+      if(id==='qElVarnost' || id==='qTelElVarnost') syncElektroSamePerson();
+      saveNow(false);
+    });
   });
   const checks={uOsnovno:'osnovno', uPromet:'promet', uVisina:'visina', uNaprave:'naprave', uPodNapetostjo:'podNapetostjo', uKabli:'kabli', uNadzemni:'nadzemni'};
   Object.entries(checks).forEach(([id,key])=>{
@@ -1230,6 +1357,9 @@ function bindQuickForm() {
 }
 function syncQuickForm() {
   syncElektroSamePerson();
+  state.quick.izvajalec=normalizeCompanyName(state.quick.izvajalec);
+  state.contractorPool=sanitizeContractorPool(state.contractorPool);
+  if(!cleanText(state.quick.krajPodpis) && cleanText(state.quick.kraj)) state.quick.krajPodpis=state.quick.kraj;
   const inputs={
     qDatum:'datum', qSporazumSt:'sporazumSt', qNarocilnica:'narocilnica', qObjekt:'objekt', qKraj:'kraj', qVarnostni:'varnostniNacrt',
     qElVarnost:'elVarnost', qTelElVarnost:'telElVarnost', qUsklajevalec:'usklajevalec', qTelUsklajevalec:'telUsklajevalec',
@@ -1262,6 +1392,7 @@ function applyRecommendedChecks() {
 function prepareFromQuickForm() {
   readQuickForm();
   const q=state.quick;
+  q.izvajalec=normalizeCompanyName(q.izvajalec);
   const datum=toDisplayDate(q.datum || fmtTodayIso());
   if(!q.datum) state.quick.datum=fmtTodayIso();
 
