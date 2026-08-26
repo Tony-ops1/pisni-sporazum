@@ -117,16 +117,38 @@ body.clean .sig button { opacity:0; }
   .help { display:none; }
   .quickForm { margin:8px; padding:10px; border-radius:10px; }
   .quickForm h2 { font-size:16px; }
-  .quickGrid { grid-template-columns: 1fr; gap:8px; }
-  .checkGrid { grid-template-columns: 1fr; }
-  .quickGrid { grid-template-columns: 1fr; gap:8px; }
-.quickGrid label { min-width:0; }
+.quickGrid {
+  grid-template-columns: 1fr;
+  gap:8px;
+  min-width:0;
+}
 
-.quickGrid input[type="date"] {
+.checkGrid {
+  grid-template-columns: 1fr;
+}
+
+.quickGrid > label {
+  width:100%;
+  min-width:0;
+  overflow:hidden;
+}
+
+.quickGrid input {
   width:100%;
   max-width:100%;
   min-width:0;
+  box-sizing:border-box;
+  font-size:16px;
+  padding:11px;
+}
+
+.quickGrid input[type="date"] {
   display:block;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  -webkit-appearance:none;
+  appearance:none;
 }
 
 .quickGrid input { font-size:16px; padding:11px; }
