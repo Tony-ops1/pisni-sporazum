@@ -199,7 +199,6 @@ body.clean .sig button { opacity:0; }
     <label>Uvozi podatke <input type="file" accept="application/json" style="display:none" onchange="importData(event)"></label>
     <button onclick="clearEverything()">Počisti tudi nabor</button>
   </details>
-  <small>Za teren: osnutek se shrani v tem brskalniku do klika “Počisti osebne podatke”. PDF shrani v službeni OneDrive, nato počisti.</small>
 </div>
 
 <section class="quickForm" id="quickForm">
@@ -207,19 +206,11 @@ body.clean .sig button { opacity:0; }
   <div class="quickGrid">
     <label>Datum <input id="qDatum" type="date" autocomplete="off"></label>
     <label>Št. sporazuma <input id="qSporazumSt" autocomplete="off" placeholder="npr. NM / RV / 2026 / ..."></label>
-    <label>Naročilnica / pogodba <input id="qNarocilnica" autocomplete="off"></label>
-    <label>Objekt <input id="qObjekt" autocomplete="off"></label>
-    <label>Kraj <input id="qKraj" autocomplete="off"></label>
-    <label>Varnostni načrt št. <input id="qVarnostni" autocomplete="off"></label>
+    <label>Objekt <input id="qObjekt" list="objectSuggestions" autocomplete="off" placeholder="Začni tipkati objekt..."><datalist id="objectSuggestions"><option value="TP VODOVOD STOPIČE 2003"></option><option value="TP VRH PRI LJUBNU 1974"></option><option value="TP VRHE 2000"></option><option value="TP VRTNI CENTER"></option><option value="TP ZAJČJI VRH 1986"></option><option value="TP ZALOG VAS 2000"></option><option value="TP ŽAGA POGANCI 1999"></option><option value="TP ŽIHOVO SELO"></option><option value="TP ŽUPNCA 2004"></option><option value="VEL. PODLJUBEN 1978"></option><option value="ZALOG 1946"></option><option value="ŽDINJA VAS1 1969"></option><option value="ŽDINJA VAS2 1984"></option><option value="TP KZ KRMILA 2002"></option><option value="TP PORTOVAL 2003"></option><option value="TP SILOS STRAŽA 1949"></option><option value="PREČNA1"></option><option value="TP AC NOVO MESTO-VZHOD"></option><option value="TP AC NOVO MESTO-ZAHOD"></option><option value="TP ADAMIČEVA 1969"></option><option value="TP AMD NM 1995"></option><option value="TP AVTOBUSNA POSTAJA NM 1990"></option><option value="TP AVTOHIŠA LOČNA 1977"></option><option value="TP BADOVINAC 1992"></option><option value="TP BAJNOF 1970"></option><option value="TP BAZA 20 1985"></option><option value="TP BIRČNA VAS 1983"></option><option value="TP BLAŽEVICA"></option><option value="TP BLOK MRZLA DOLINA"></option><option value="TP BLOKI 1957"></option><option value="TP BLOKI STRAŽA 1979"></option><option value="TP BOLNICA NM 1973"></option><option value="TP BOR DOL. TOPLICE"></option><option value="TP BREG 1975"></option><option value="TP BREZJE PRI STRAŽI 2000"></option><option value="TP BREZOV LOG 1971"></option><option value="TP BRŠLJIN 1962"></option><option value="TP BUČNA VAS"></option><option value="TP BUŠINC 1963"></option><option value="TP CEGELNICA 1976"></option><option value="TP CENTER NM 1960"></option><option value="TP CEROVEC PRI BIRČNI VASI"></option><option value="TP CEROVEC PRI KOČV.POLJANAH"></option><option value="TP CEROVEC PRI SMOLENJI VASI 2001"></option><option value="TP CIKAVA 1975"></option><option value="TP CP BUČNA VAS NAD"></option><option value="TP ČEŠČA VAS 1974"></option><option value="TP ČRMOŠNJICE1 1968"></option><option value="TP ČRMOŠNJICE2 1988"></option><option value="TP DALJNI VRH 1985"></option><option value="TP DALJNI VRH 2"></option><option value="TP DOBINDOL 1992"></option><option value="TP DOBRAVA-HENČEK 2001"></option><option value="TP DOL. KAMENCE 1967"></option><option value="TP DOL. STRAŽA 1969"></option><option value="TP DOL. TEŽKA VODA 1980"></option><option value="TP DOL. TEŽKA VODA 2 2002"></option><option value="TP DOL. TOPLICE 1939"></option><option value="TP DOLŽ"></option><option value="TP DOM STAREJŠIH OBČANOV NM"></option><option value="TP DOM. SL. PIONIRJEV DOL. TOP 1982"></option><option value="TP DREJČETOVA POT"></option><option value="TP DRENJE 1983"></option><option value="TP DRGANČEVJE 1998"></option><option value="TP DRGANJA SELA 1982"></option><option value="TP DRGANJA SELA 2 2001"></option><option value="TP DRSKA"></option><option value="TP ELEKTRO 1977"></option><option value="TP GABRJE PRI SOTESKI"></option><option value="TP GASILSKI DOM STOPIČE 2000"></option><option value="TP GC STRAŽA"></option><option value="TP GC STRAŽA 2"></option><option value="TP GC ZALOG"></option><option value="TP GOČEV HRIB 2000"></option><option value="TP GOLUŠNIK"></option><option value="TP GOR. GRADIŠČE PRI DOL. TOP. 1990"></option><option value="TP GOR. KAMENCE 1954"></option><option value="TP GOR. LOČNA 1997"></option><option value="TP GOR. LOČNA 2"></option><option value="TP GOR. POLJE 1970"></option><option value="TP GOR. SUŠICE 1983"></option><option value="TP GOR. TEŽKA VODA 1986"></option><option value="TP GOTNA VAS 1981"></option><option value="TP GRABEN 1989"></option><option value="TP GRIČ PRI PODTURNU 1998"></option><option value="TP GROBLJE PRI CEGELNICI 1975"></option><option value="TP GRUMOVA1 1977"></option><option value="TP GRUMOVA2 1984"></option><option value="TP HE LUKNA 1982"></option><option value="TP HOTEL DOLENJC"></option><option value="TP HRIB PRI OREHKU 1992"></option><option value="TP HRUŠEVEC 2002"></option><option value="TP HUDI VRH PRI ČRMOŠNJICAH"></option><option value="TP IGLENIK (NM) 2000"></option><option value="TP IRČA VAS 1983"></option><option value="TP JAKČEVA 1968"></option><option value="TP JEDINŠČICA"></option><option value="TP JENKOVA 1984"></option><option value="TP JURKA VAS 2001"></option><option value="TP JURNA VAS 1995"></option><option value="TP K ROKU 1977"></option><option value="TP KAMENCE 2"></option><option value="TP KAMENCE 2001"></option><option value="TP KANDIJSKA 1966"></option><option value="TP KARLOVEC"></option><option value="TP KETTEJEVA 1967"></option><option value="TP KNAFELČEVA 2003"></option><option value="TP KODELJEV HRIB 1970"></option><option value="TP KOLODVOR 1985"></option><option value="TP KONEC PRI PODGRADU"></option><option value="TP KOROŠKA VAS 1977"></option><option value="TP KOVINAR 1982"></option><option value="TP KREMENJAK - RUPERČ VRH 2"></option><option value="TP KRISTANOVA 1971"></option><option value="TP KRKA 1979"></option><option value="TP KRKA VINODOL 2002"></option><option value="TP KUZARJEV KAL 1987"></option><option value="TP KZ KRKA ŽABJA VAS 2001"></option><option value="TP LAKOVNICE 1989"></option><option value="TP LAZE 1965"></option><option value="TP LEBANOVA 1971"></option><option value="TP LEŠNICA 1991"></option><option value="TP LIVADA 1999"></option><option value="TP LJUBLJANSKA CESTA"></option><option value="TP LOŠKA VAS 1991"></option><option value="TP LUBANC 1996"></option><option value="TP MAČKOVEC 2009"></option><option value="TP MAKUTE"></option><option value="TP MALI CEROVEC 1998"></option><option value="TP MALI PODLJUBEN"></option><option value="TP MALI RIGELJ 2002"></option><option value="TP MALI SLATNIK 1979"></option><option value="TP MENIŠKA VAS 1983"></option><option value="TP MENIŠKA VAS 2"></option><option value="TP MENIŠKA VAS 3"></option><option value="TP MESTNE NJIVE 1960"></option><option value="TP METROPOL 1978"></option><option value="TP MIHOVEC"></option><option value="TP MIZARSTVO BOBIČ"></option><option value="TP MRAŠEVO 1974"></option><option value="TP MRVARJEV HRIB"></option><option value="TP MRZLA DOLINA 2"></option><option value="TP MRZLA DOLINA 2000"></option><option value="TP MUHABER 1974"></option><option value="TP NA HRIBU-D.SUŠICE 1999"></option><option value="TP NA LAZU 2003"></option><option value="TP NA VAHTI"></option><option value="TP NA ŽAGO 1997"></option><option value="TP NAD MLINI 1968"></option><option value="TP NGC OB STRAŠKI CESTI"></option><option value="TP NOVA GORA PREČNA"></option><option value="TP NOVA GORA PRI KOROŠKI V. 1998"></option><option value="TP NOVI LJUBEN1"></option><option value="TP NOVI LJUBEN2"></option><option value="TP NOVI TRG 1993"></option><option value="TP NOVOTEKS1 1965"></option><option value="TP NOVOTEKS2 1974"></option><option value="TP OB POTOKU 2 2000"></option><option value="TP OBČICE 1977"></option><option value="TP OBČICE 2 2002"></option><option value="TP OBRH 1960"></option><option value="TP OBRTNA CONA 2 CIKAVA 1993"></option><option value="TP OBRTNA CONA CIKAVA 1"></option><option value="TP OBRTNA CONA SELA 1997"></option><option value="TP OMV ŽABJA VAS 1999"></option><option value="TP OREHEK 1968"></option><option value="TP PEKARNA LOČNA 1992"></option><option value="TP PETELINJEK 1990"></option><option value="TP PETROL BROD 2002"></option><option value="TP PIONIR"></option><option value="TP PIONIR CEGELNICA 1975"></option><option value="TP PIONIR-ELEKTRO 1981"></option><option value="TP PLEMBERK"></option><option value="TP POD MIHOVCEM"></option><option value="TP POD TRŠKO GORO 1973"></option><option value="TP PODBREZNIK 1"></option><option value="TP PODBREZNIK 3"></option><option value="TP PODBREZNIK 6"></option><option value="TP PODGORA 1985"></option><option value="TP PODGRAD 1954"></option><option value="TP PODHOSTA 1972"></option><option value="TP PODTURN 1976"></option><option value="TP PODTURN 2"></option><option value="TP POGANSKE NJIVE 1998"></option><option value="TP POLJANE 1974"></option><option value="TP POTOČNA VAS"></option><option value="TP POTOK 1986"></option><option value="TP PRAPREČE PRI STRAŽI 1991"></option><option value="TP PREČNA 3"></option><option value="TP PREČNA2 1975"></option><option value="TP PREŠERNOV TRG 1993"></option><option value="TP PRI MALNU-G. SUŠICE 1999"></option><option value="TP PRISTAVA 1979"></option><option value="TP RAGOVO"></option><option value="TP RAGOVSKA 1 1971"></option><option value="TP RAGOVSKA 2 1973"></option><option value="TP RAKOVNIK 1988"></option><option value="TP REBER 2001"></option><option value="TP REBER 2"></option><option value="TP REGRČA VAS 1972"></option><option value="TP REGRŠKE KOŠENICE 1985"></option><option value="TP RESA 1979"></option><option value="TP RIGEL 1 2002"></option><option value="TP RIGEL 2 2002"></option><option value="TP RN BREZJE"></option><option value="TP RUMANJA VAS"></option><option value="TP RUPERČVRH 1984"></option><option value="TP SEIDLOVA1 1969"></option><option value="TP SEIDLOVA2 1979"></option><option value="TP SEIDLOVA3 1981"></option><option value="TP SELA PRI DOL. TOPLICAH 1979"></option><option value="TP SELIŠČE 1999"></option><option value="TP SEVNO"></option><option value="TP SMOLENJA VAS 3 2001"></option><option value="TP SMOLENJA VAS1 1960"></option><option value="TP SMOLENJA VAS2 1988"></option><option value="TP SODIŠČE NM 1960"></option><option value="TP SOTESKA 1970"></option><option value="TP SREBRNIČE 1983"></option><option value="TP SREBRNIČE VAS"></option><option value="TP STARE ŽAGE 1985"></option><option value="TP STARI LJUBEN 1987"></option><option value="TP STARI LJUBEN SV.VID 1988"></option><option value="TP STRANSKA VAS 2 NM"></option><option value="TP STRANSKA VAS NM 1953"></option><option value="TP STRAŠKA GORA"></option><option value="TP STRAŽA 1940"></option><option value="TP STRAŽNA 1995"></option><option value="TP SUHOR PRI DT 2004"></option><option value="TP SUŠICE 1972"></option><option value="TP SV. ROK"></option><option value="TP ŠEGOVA 1974"></option><option value="TP ŠENTJOŠT 1984"></option><option value="TP ŠKRILE DOL. TOPL. 1992"></option><option value="TP ŠKRILJE VRH 2002"></option><option value="TP ŠKRJANČE 1981"></option><option value="TP ŠMIHEL 1967"></option><option value="TP ŠOLA BAJNOF"></option><option value="TP ŠOLA BRŠLJIN 1972"></option><option value="TP ŠOLA STOPIČE"></option><option value="TP ŠOLA VAVTA VAS 1987"></option><option value="TP ŠOLSKA 1971"></option><option value="TP ŠOLSKI CENTER1 1978"></option><option value="TP ŠOLSKI CENTER2 1983"></option><option value="TP TISKARNA 1978"></option><option value="TP TOPLIŠKA 2003"></option><option value="TP TRAVNI DOL 2003"></option><option value="TP TRŠKA GORA 1978"></option><option value="TP URŠNA SELA1 1951"></option><option value="TP URŠNA SELA2 1984"></option><option value="TP UŠIVEC 1999"></option><option value="TP VALANTIČEVA 1973"></option><option value="TP VAVTA VAS 1986"></option><option value="TP VEL. CEROVEC 1975"></option><option value="TP VELIKI OREHEK"></option><option value="TP VELODROM 1996"></option><option value="TP VERDUN PRI STOPIČAH 1998"></option><option value="TP VERDUN PRI URŠ.SELIH"></option><option value="TP VIDMARJEVA"></option><option value="TP VINJA VAS 1995"></option><option value="20KV (00-)"></option><option value="20KV DOVOD IZ DV DOL. TOPLICE (00-J02)"></option><option value="20KV LOČNA (60-J30)"></option><option value="20KV RTP LOČNA (60-J07)"></option><option value="DV 20KV BOLNICA (61-J24)"></option><option value="DV 20KV BRŠLJIN (60-J22)"></option><option value="DV 20KV CIKAVA (61-J26)"></option><option value="DV 20KV DOLENJSKE TOPLICE (60-J04)"></option><option value="DV 20KV MIRNA PEČ (60-J05)"></option><option value="DV 20KV MOKRO POLJE (61-J23)"></option><option value="DV 20KV NM CENTER (60-J23)"></option><option value="DV 20KV NOVO MESTO (60-J28)"></option><option value="DV 20KV OTOČEC (00-J35)"></option><option value="DV 20KV PODGRAD (61-J04)"></option><option value="DV 20KV RAGOVO (61-J21)"></option><option value="DV 20KV REGERŠKE KOŠENICE (61-J05)"></option><option value="DV 20KV SEVNO (00-J33)"></option><option value="DV 20KV STOPIČE (61-J25)"></option><option value="DV 20KV STRAŽA (60-J06)"></option><option value="DV 20KV TSV 2 (60-J11)"></option><option value="DV 20KV URŠNA SELA (61-J07)"></option><option value="DV 20KV ZALOG (60-J12)"></option><option value="KB 20KV ADRIA (60-J29)"></option><option value="KB 20KV BUČNA VAS (60-J13)"></option><option value="KB 20KV ČISTILNA NAPRAVA (61-J28)"></option><option value="KB 20KV HUDO (60-J14)"></option><option value="KB 20KV KRKA (60-J21)"></option><option value="KB 20KV KRKA 1 (00-J02)"></option><option value="KB 20KV KRKA 2 (00-J16)"></option><option value="KB 20KV KRKA 3 (00-J03)"></option><option value="KB 20KV KRKA 4 (00-J17)"></option><option value="KB 20KV KRONOVO (00-J15)"></option><option value="KB 20KV LIVADA (60-J20)"></option><option value="KB 20KV PEKARNA LOČNA (00-J26)"></option><option value="KB 20KV QLANDIA (00-J27)"></option><option value="KB 20KV REVOZ 1 (61-J13)"></option><option value="KB 20KV REVOZ 2 (61-J18)"></option><option value="KB 20KV TSV1 (60-J27)"></option></datalist></label>
+    <label>Kraj <input id="qKraj" list="placeSuggestions" autocomplete="off" placeholder="Začni tipkati kraj..."><datalist id="placeSuggestions"><option value="Novo mesto"></option><option value="Dolenjske Toplice"></option><option value="Straža"></option><option value="Otočec"></option><option value="Stopiče"></option><option value="Prečna"></option><option value="Vavta vas"></option><option value="Soteska"></option><option value="Podturn"></option><option value="Uršna sela"></option><option value="Podgrad"></option><option value="Gabrje"></option><option value="Birčna vas"></option><option value="Žabja vas"></option><option value="Smolenja vas"></option><option value="Češča vas"></option><option value="Koroška vas"></option><option value="Zalog"></option><option value="Trebnje"></option><option value="Mirna Peč"></option><option value="Šentjernej"></option><option value="Škocjan"></option><option value="Šmarješke Toplice"></option><option value="Črnomelj"></option><option value="Metlika"></option><option value="Semič"></option></datalist></label>
   </div>
   <div class="contractorPick" style="margin-top:9px">
-    <label>Izberi objekt iz nabora
-      <select id="qObjectSelect"><option value="">-- izberi objekt --</option></select>
-    </label>
     <button type="button" onclick="saveCurrentObjectToPool()">Shrani objekt</button>
-    <label>Izberi kraj iz nabora
-      <select id="qPlaceSelect"><option value="">-- izberi kraj --</option></select>
-    </label>
     <button type="button" onclick="saveCurrentPlaceToPool()">Shrani kraj</button>
     <button type="button" onclick="openSites()">Uredi / briši</button>
   </div>
@@ -227,14 +218,11 @@ body.clean .sig button { opacity:0; }
   <div class="quickSection">
     <h3>Elektro Ljubljana – naročnik</h3>
     <div class="contractorPick">
-      <label>Izberi našega zaposlenega iz nabora
-        <select id="qElektroEmployeeSelect"><option value="">-- izberi zaposlenega --</option></select>
-      </label>
       <button type="button" onclick="saveCurrentElektroEmployeeToPool()">Shrani zaposlenega v nabor</button>
       <button type="button" onclick="openElektroEmployees()">Uredi nabor zaposlenih</button>
     </div>
     <div class="quickGrid">
-      <label>Delavec Elektro Ljubljana<br><span style="font-size:12px;color:#666;font-weight:400">velja za varnost naročnika in usklajeno izvajanje ukrepov</span><input id="qElVarnost" autocomplete="off"></label>
+      <label>Delavec Elektro Ljubljana<br><span style="font-size:12px;color:#666;font-weight:400">velja za varnost naročnika in usklajeno izvajanje ukrepov</span><input id="qElVarnost" list="elektroEmployeeSuggestions" autocomplete="off" placeholder="Začni tipkati ime..."><datalist id="elektroEmployeeSuggestions"><option value="Križe Anton"></option><option value="Eršte Anton"></option><option value="Damjan Vovk"></option><option value="Potočar Mitja"></option><option value="Vidič Žan"></option><option value="Doblehar Andrej"></option><option value="Barbo Nejc"></option><option value="Kajin Simon"></option><option value="Matevž Fabijan"></option><option value="Brezovar Simon"></option><option value="Šmuc Rok"></option></datalist></label>
       <label>Telefon <input id="qTelElVarnost" autocomplete="off"></label>
       <input id="qUsklajevalec" type="hidden">
       <input id="qTelUsklajevalec" type="hidden">
@@ -244,25 +232,25 @@ body.clean .sig button { opacity:0; }
   <div class="quickSection">
     <h3>Izvajalec</h3>
     <div class="contractorPick">
-      <label>Izberi izvajalca iz nabora
-        <select id="qContractorSelect"><option value="">-- izberi izvajalca --</option></select>
-      </label>
       <button type="button" onclick="saveCurrentContractorToPool()">Shrani trenutnega v nabor</button>
       <button type="button" onclick="openContractors()">Uredi nabor izvajalcev</button>
     </div>
     <div class="quickGrid">
-      <label>Izvajalec del / podjetje <input id="qIzvajalec" autocomplete="off" placeholder="npr. Didograd s.p."></label>
+      <label>Izvajalec del / podjetje <input id="qIzvajalec" list="contractorSuggestions" autocomplete="off" placeholder="Začni tipkati ali vpiši izvajalca..."><datalist id="contractorSuggestions"></datalist></label>
       <label>Odgovorna oseba izvajalca <input id="qOdgovornaIzvajalca" autocomplete="off"></label>
-      <label>Datum rojstva odgovorne osebe <input id="qOdgovornaIzvajalcaRojstvo" autocomplete="off" placeholder="samo za ta dokument; ne shrani se v nabor"></label>
       <label>Telefon odgovorne osebe <input id="qTelIzvajalca" autocomplete="off"></label>
       <label>Kraj podpisa <input id="qKrajPodpis" autocomplete="off"></label>
     </div>
-    <div class="contractorPick" style="margin-top:9px">
-      <label>Delavci izvajalca / gradbinca
-        <select id="qContractorWorkerSelect"><option value="">-- izberi delavca za dodajanje --</option></select>
-      </label>
-      <button type="button" onclick="addSelectedContractorWorkerToDocument()">Dodaj na zadnji list</button>
-      <button type="button" onclick="openWorkers()">Uredi nabor delavcev izvajalca</button>
+    <div style="margin-top:9px">
+      <div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:6px">Delavci izvajalca / gradbinca</div>
+      <div class="quickGrid">
+        <input id="qContractorWorkerName" list="contractorWorkerSuggestions" autocomplete="off" placeholder="Začni tipkati ime...">
+          <datalist id="contractorWorkerSuggestions"><option value="Lan Didovič"></option><option value="Hudak Rok"></option><option value="Štefan Didovič"></option><option value="Omer Rizvić"></option><option value="Adnan Iberčić"></option><option value="Domen Didovič"></option><option value="Luka Didovič"></option></datalist>
+      </div>
+      <div class="quickButtons" style="margin-top:7px">
+        <button type="button" onclick="saveCurrentContractorWorkerToPool()">Shrani delavca v nabor</button>
+        <button type="button" onclick="openWorkers()">Uredi nabor delavcev izvajalca</button>
+      </div>
     </div>
   </div>
 
@@ -277,18 +265,14 @@ body.clean .sig button { opacity:0; }
       <label><input type="checkbox" id="uKabli"> Kabli v zemlji / izkop</label>
       <label><input type="checkbox" id="uNadzemni"> Nadzemni vodi</label>
     </div>
-    <div class="quickHint">Privzeto je obkljukano osnovno zavarovanje ter delo v bližini elektro naprav. Kabli, nadzemni vodi, promet in višina se označijo samo, če zares velja za delovišče.</div>
   </div>
 
-  <div class="safeNote">Varno: nabori ne vsebujejo datumov rojstva in podpisov. Trenutni osnutek se ohrani ob osvežitvi; po PDF klikni “Počisti osebne podatke”.</div>
 
   <div class="quickButtons">
     <button class="primary" onclick="prepareFromQuickForm()">Pripravi dokument</button>
       <button onclick="printAndOfferClean()">Shrani PDF</button>
   </div>
-  <div class="quickHint">Najprej izpolni ta del in klikni <b>Pripravi dokument</b>. Elektro Ljubljana se vpiše kot naročnik. V spodnjo tabelo se prenese odgovorna oseba izvajalca, ostale delavce pa lahko dodaš iz nabora ali ročno. Po shranitvi PDF počisti osebne podatke.</div>
 </section>
-<div class="help">Varna mobilna verzija brez prilog 1–4: GitHub vsebuje samo prazno aplikacijo. Nabori hranijo samo ločene objekte, kraje, podjetja, imena in telefone. Datumi rojstva in podpisi se uporabijo samo za trenutni PDF in se ne shranjujejo trajno.</div>
 
 <div id="siteModal">
   <div id="workerBox">
@@ -393,7 +377,7 @@ const DEFAULT_WORKER_POOL=[
   {ime:'Domen Didovič', izbran:false},
   {ime:'Luka Didovič', izbran:false}
 ];
-const DEFAULT_CONTRACTOR_POOL_VERSION='didograd_contractors_v3';
+const DEFAULT_CONTRACTOR_POOL_VERSION='didograd_contractors_v4';
 const DEFAULT_CONTRACTOR_POOL=[
   {podjetje:'Didograd s.p.', odgovorna:'Lan Didovič', telefon:'040731799'},
   {podjetje:'Didograd s.p.', odgovorna:'Štefan Didovič', telefon:'040731799'},
@@ -424,6 +408,29 @@ function seedDefaultContractorPool() {
     }
   });
   state._defaultContractorPoolVersion=DEFAULT_CONTRACTOR_POOL_VERSION;
+}
+
+
+const DEFAULT_OBJECT_POOL = ["TP VODOVOD STOPIČE 2003","TP VRH PRI LJUBNU 1974","TP VRHE 2000","TP VRTNI CENTER","TP ZAJČJI VRH 1986","TP ZALOG VAS 2000","TP ŽAGA POGANCI 1999","TP ŽIHOVO SELO","TP ŽUPNCA 2004","VEL. PODLJUBEN 1978","ZALOG 1946","ŽDINJA VAS1 1969","ŽDINJA VAS2 1984","TP KZ KRMILA 2002","TP PORTOVAL 2003","TP SILOS STRAŽA 1949","PREČNA1","TP AC NOVO MESTO-VZHOD","TP AC NOVO MESTO-ZAHOD","TP ADAMIČEVA 1969","TP AMD NM 1995","TP AVTOBUSNA POSTAJA NM 1990","TP AVTOHIŠA LOČNA 1977","TP BADOVINAC 1992","TP BAJNOF 1970","TP BAZA 20 1985","TP BIRČNA VAS 1983","TP BLAŽEVICA","TP BLOK MRZLA DOLINA","TP BLOKI 1957","TP BLOKI STRAŽA 1979","TP BOLNICA NM 1973","TP BOR DOL. TOPLICE","TP BREG 1975","TP BREZJE PRI STRAŽI 2000","TP BREZOV LOG 1971","TP BRŠLJIN 1962","TP BUČNA VAS","TP BUŠINC 1963","TP CEGELNICA 1976","TP CENTER NM 1960","TP CEROVEC PRI BIRČNI VASI","TP CEROVEC PRI KOČV.POLJANAH","TP CEROVEC PRI SMOLENJI VASI 2001","TP CIKAVA 1975","TP CP BUČNA VAS NAD","TP ČEŠČA VAS 1974","TP ČRMOŠNJICE1 1968","TP ČRMOŠNJICE2 1988","TP DALJNI VRH 1985","TP DALJNI VRH 2","TP DOBINDOL 1992","TP DOBRAVA-HENČEK 2001","TP DOL. KAMENCE 1967","TP DOL. STRAŽA 1969","TP DOL. TEŽKA VODA 1980","TP DOL. TEŽKA VODA 2 2002","TP DOL. TOPLICE 1939","TP DOLŽ","TP DOM STAREJŠIH OBČANOV NM","TP DOM. SL. PIONIRJEV DOL. TOP 1982","TP DREJČETOVA POT","TP DRENJE 1983","TP DRGANČEVJE 1998","TP DRGANJA SELA 1982","TP DRGANJA SELA 2 2001","TP DRSKA","TP ELEKTRO 1977","TP GABRJE PRI SOTESKI","TP GASILSKI DOM STOPIČE 2000","TP GC STRAŽA","TP GC STRAŽA 2","TP GC ZALOG","TP GOČEV HRIB 2000","TP GOLUŠNIK","TP GOR. GRADIŠČE PRI DOL. TOP. 1990","TP GOR. KAMENCE 1954","TP GOR. LOČNA 1997","TP GOR. LOČNA 2","TP GOR. POLJE 1970","TP GOR. SUŠICE 1983","TP GOR. TEŽKA VODA 1986","TP GOTNA VAS 1981","TP GRABEN 1989","TP GRIČ PRI PODTURNU 1998","TP GROBLJE PRI CEGELNICI 1975","TP GRUMOVA1 1977","TP GRUMOVA2 1984","TP HE LUKNA 1982","TP HOTEL DOLENJC","TP HRIB PRI OREHKU 1992","TP HRUŠEVEC 2002","TP HUDI VRH PRI ČRMOŠNJICAH","TP IGLENIK (NM) 2000","TP IRČA VAS 1983","TP JAKČEVA 1968","TP JEDINŠČICA","TP JENKOVA 1984","TP JURKA VAS 2001","TP JURNA VAS 1995","TP K ROKU 1977","TP KAMENCE 2","TP KAMENCE 2001","TP KANDIJSKA 1966","TP KARLOVEC","TP KETTEJEVA 1967","TP KNAFELČEVA 2003","TP KODELJEV HRIB 1970","TP KOLODVOR 1985","TP KONEC PRI PODGRADU","TP KOROŠKA VAS 1977","TP KOVINAR 1982","TP KREMENJAK - RUPERČ VRH 2","TP KRISTANOVA 1971","TP KRKA 1979","TP KRKA VINODOL 2002","TP KUZARJEV KAL 1987","TP KZ KRKA ŽABJA VAS 2001","TP LAKOVNICE 1989","TP LAZE 1965","TP LEBANOVA 1971","TP LEŠNICA 1991","TP LIVADA 1999","TP LJUBLJANSKA CESTA","TP LOŠKA VAS 1991","TP LUBANC 1996","TP MAČKOVEC 2009","TP MAKUTE","TP MALI CEROVEC 1998","TP MALI PODLJUBEN","TP MALI RIGELJ 2002","TP MALI SLATNIK 1979","TP MENIŠKA VAS 1983","TP MENIŠKA VAS 2","TP MENIŠKA VAS 3","TP MESTNE NJIVE 1960","TP METROPOL 1978","TP MIHOVEC","TP MIZARSTVO BOBIČ","TP MRAŠEVO 1974","TP MRVARJEV HRIB","TP MRZLA DOLINA 2","TP MRZLA DOLINA 2000","TP MUHABER 1974","TP NA HRIBU-D.SUŠICE 1999","TP NA LAZU 2003","TP NA VAHTI","TP NA ŽAGO 1997","TP NAD MLINI 1968","TP NGC OB STRAŠKI CESTI","TP NOVA GORA PREČNA","TP NOVA GORA PRI KOROŠKI V. 1998","TP NOVI LJUBEN1","TP NOVI LJUBEN2","TP NOVI TRG 1993","TP NOVOTEKS1 1965","TP NOVOTEKS2 1974","TP OB POTOKU 2 2000","TP OBČICE 1977","TP OBČICE 2 2002","TP OBRH 1960","TP OBRTNA CONA 2 CIKAVA 1993","TP OBRTNA CONA CIKAVA 1","TP OBRTNA CONA SELA 1997","TP OMV ŽABJA VAS 1999","TP OREHEK 1968","TP PEKARNA LOČNA 1992","TP PETELINJEK 1990","TP PETROL BROD 2002","TP PIONIR","TP PIONIR CEGELNICA 1975","TP PIONIR-ELEKTRO 1981","TP PLEMBERK","TP POD MIHOVCEM","TP POD TRŠKO GORO 1973","TP PODBREZNIK 1","TP PODBREZNIK 3","TP PODBREZNIK 6","TP PODGORA 1985","TP PODGRAD 1954","TP PODHOSTA 1972","TP PODTURN 1976","TP PODTURN 2","TP POGANSKE NJIVE 1998","TP POLJANE 1974","TP POTOČNA VAS","TP POTOK 1986","TP PRAPREČE PRI STRAŽI 1991","TP PREČNA 3","TP PREČNA2 1975","TP PREŠERNOV TRG 1993","TP PRI MALNU-G. SUŠICE 1999","TP PRISTAVA 1979","TP RAGOVO","TP RAGOVSKA 1 1971","TP RAGOVSKA 2 1973","TP RAKOVNIK 1988","TP REBER 2001","TP REBER 2","TP REGRČA VAS 1972","TP REGRŠKE KOŠENICE 1985","TP RESA 1979","TP RIGEL 1 2002","TP RIGEL 2 2002","TP RN BREZJE","TP RUMANJA VAS","TP RUPERČVRH 1984","TP SEIDLOVA1 1969","TP SEIDLOVA2 1979","TP SEIDLOVA3 1981","TP SELA PRI DOL. TOPLICAH 1979","TP SELIŠČE 1999","TP SEVNO","TP SMOLENJA VAS 3 2001","TP SMOLENJA VAS1 1960","TP SMOLENJA VAS2 1988","TP SODIŠČE NM 1960","TP SOTESKA 1970","TP SREBRNIČE 1983","TP SREBRNIČE VAS","TP STARE ŽAGE 1985","TP STARI LJUBEN 1987","TP STARI LJUBEN SV.VID 1988","TP STRANSKA VAS 2 NM","TP STRANSKA VAS NM 1953","TP STRAŠKA GORA","TP STRAŽA 1940","TP STRAŽNA 1995","TP SUHOR PRI DT 2004","TP SUŠICE 1972","TP SV. ROK","TP ŠEGOVA 1974","TP ŠENTJOŠT 1984","TP ŠKRILE DOL. TOPL. 1992","TP ŠKRILJE VRH 2002","TP ŠKRJANČE 1981","TP ŠMIHEL 1967","TP ŠOLA BAJNOF","TP ŠOLA BRŠLJIN 1972","TP ŠOLA STOPIČE","TP ŠOLA VAVTA VAS 1987","TP ŠOLSKA 1971","TP ŠOLSKI CENTER1 1978","TP ŠOLSKI CENTER2 1983","TP TISKARNA 1978","TP TOPLIŠKA 2003","TP TRAVNI DOL 2003","TP TRŠKA GORA 1978","TP URŠNA SELA1 1951","TP URŠNA SELA2 1984","TP UŠIVEC 1999","TP VALANTIČEVA 1973","TP VAVTA VAS 1986","TP VEL. CEROVEC 1975","TP VELIKI OREHEK","TP VELODROM 1996","TP VERDUN PRI STOPIČAH 1998","TP VERDUN PRI URŠ.SELIH","TP VIDMARJEVA","TP VINJA VAS 1995","20KV (00-)","20KV DOVOD IZ DV DOL. TOPLICE (00-J02)","20KV LOČNA (60-J30)","20KV RTP LOČNA (60-J07)","DV 20KV BOLNICA (61-J24)","DV 20KV BRŠLJIN (60-J22)","DV 20KV CIKAVA (61-J26)","DV 20KV DOLENJSKE TOPLICE (60-J04)","DV 20KV MIRNA PEČ (60-J05)","DV 20KV MOKRO POLJE (61-J23)","DV 20KV NM CENTER (60-J23)","DV 20KV NOVO MESTO (60-J28)","DV 20KV OTOČEC (00-J35)","DV 20KV PODGRAD (61-J04)","DV 20KV RAGOVO (61-J21)","DV 20KV REGERŠKE KOŠENICE (61-J05)","DV 20KV SEVNO (00-J33)","DV 20KV STOPIČE (61-J25)","DV 20KV STRAŽA (60-J06)","DV 20KV TSV 2 (60-J11)","DV 20KV URŠNA SELA (61-J07)","DV 20KV ZALOG (60-J12)","KB 20KV ADRIA (60-J29)","KB 20KV BUČNA VAS (60-J13)","KB 20KV ČISTILNA NAPRAVA (61-J28)","KB 20KV HUDO (60-J14)","KB 20KV KRKA (60-J21)","KB 20KV KRKA 1 (00-J02)","KB 20KV KRKA 2 (00-J16)","KB 20KV KRKA 3 (00-J03)","KB 20KV KRKA 4 (00-J17)","KB 20KV KRONOVO (00-J15)","KB 20KV LIVADA (60-J20)","KB 20KV PEKARNA LOČNA (00-J26)","KB 20KV QLANDIA (00-J27)","KB 20KV REVOZ 1 (61-J13)","KB 20KV REVOZ 2 (61-J18)","KB 20KV TSV1 (60-J27)"];
+const DEFAULT_PLACE_POOL = ["Novo mesto", "Dolenjske Toplice", "Straža", "Otočec", "Stopiče", "Prečna", "Vavta vas", "Soteska", "Podturn", "Uršna sela", "Podgrad", "Gabrje", "Birčna vas", "Žabja vas", "Smolenja vas", "Češča vas", "Koroška vas", "Zalog", "Trebnje", "Mirna Peč", "Šentjernej", "Škocjan", "Šmarješke Toplice", "Črnomelj", "Metlika", "Semič"];
+const DEFAULT_ELEKTRO_EMPLOYEES = ["Križe Anton", "Eršte Anton", "Damjan Vovk", "Potočar Mitja", "Vidič Žan", "Doblehar Andrej", "Barbo Nejc", "Kajin Simon", "Matevž Fabijan", "Brezovar Simon", "Šmuc Rok"];
+function seedDefaultObjectPool() {
+  state.objectPool = uniqueClean([...(state.objectPool||[]), ...DEFAULT_OBJECT_POOL]);
+  state.placePool = uniqueClean([...(state.placePool||[]), ...DEFAULT_PLACE_POOL]);
+}
+
+
+function seedDefaultElektroEmployees() {
+  state.elektroEmployeePool = sanitizeElektroEmployeePool(state.elektroEmployeePool);
+seedDefaultElektroEmployees();
+  DEFAULT_ELEKTRO_EMPLOYEES.forEach(name => {
+    const idx = state.elektroEmployeePool.findIndex(w => normName(w.ime) === normName(name));
+    if(idx >= 0) {
+      if(!cleanText(state.elektroEmployeePool[idx].telefon)) state.elektroEmployeePool[idx].telefon = '07 620 53 30';
+    } else {
+      state.elektroEmployeePool.push({ime:name, telefon:'07 620 53 30'});
+    }
+  });
 }
 
 function blankRow() { return {datum:'', podjetje:'', oseba:'', telefon:'', podpis:''}; }
@@ -479,14 +486,24 @@ state.elektroEmployeePool = sanitizeElektroEmployeePool(state.elektroEmployeePoo
 state.sitePool = sanitizeSitePool(state.sitePool);
 state.objectPool = sanitizeTextPool(state.objectPool);
 state.placePool = sanitizeTextPool(state.placePool);
+seedDefaultObjectPool();
 if((!state.objectPool || state.objectPool.length===0) && state.sitePool.length) state.objectPool = uniqueClean(state.sitePool.map(s=>s.objekt));
 if((!state.placePool || state.placePool.length===0) && state.sitePool.length) state.placePool = uniqueClean(state.sitePool.map(s=>s.kraj));
 function loadState() {
+  const fresh = initialState();
   try {
-    const saved=localStorage.getItem(STORAGE_KEY);
-    if(saved) return mergeDeep(initialState(), JSON.parse(saved));
+    const savedRaw = localStorage.getItem(STORAGE_KEY);
+    if(savedRaw) {
+      const saved = JSON.parse(savedRaw) || {};
+      fresh.contractorPool = sanitizeContractorPool(saved.contractorPool);
+      fresh.workerPool = sanitizeWorkerPool(saved.workerPool).map(w => ({ime:w.ime, izbran:false}));
+      fresh.elektroEmployeePool = sanitizeElektroEmployeePool(saved.elektroEmployeePool);
+      fresh.sitePool = sanitizeSitePool(saved.sitePool);
+      fresh.objectPool = sanitizeTextPool(saved.objectPool);
+      fresh.placePool = sanitizeTextPool(saved.placePool);
+    }
   } catch(e) {}
-  return initialState();
+  return fresh;
 }
 function mergeDeep(base, extra) {
   if(Array.isArray(base)) {
@@ -560,20 +577,21 @@ function sanitizeElektroEmployeePool(pool) {
   })).filter(w => w.ime);
 }
 function persistentState() {
-  // Shrani se tudi trenutni osnutek, da se ob osvežitvi strani ne izgubi.
-  // Nabori so brez datumov rojstva in podpisov; trenutni dokument pa ostane do klika "Počisti osebne podatke".
-  const out = mergeDeep(initialState(), state);
-  out.contractorPool = sanitizeContractorPool(out.contractorPool);
-  out.workerPool = sanitizeWorkerPool(out.workerPool);
-  out.elektroEmployeePool = sanitizeElektroEmployeePool(out.elektroEmployeePool);
-  out.sitePool = sanitizeSitePool(out.sitePool);
-  out.objectPool = sanitizeTextPool(out.objectPool);
-  out.placePool = sanitizeTextPool(out.placePool);
-  return out;
+  // Trajno se shranijo samo nabori.
+  // Trenutni sporazum, podpisi, datumi, kraj, objekt, izbrani delavci in ostali vnosi
+  // se ob osvežitvi strani NE obnovijo.
+  return {
+    contractorPool: sanitizeContractorPool(state.contractorPool),
+    workerPool: sanitizeWorkerPool(state.workerPool).map(w => ({ime:w.ime, izbran:false})),
+    elektroEmployeePool: sanitizeElektroEmployeePool(state.elektroEmployeePool),
+    sitePool: sanitizeSitePool(state.sitePool),
+    objectPool: sanitizeTextPool(state.objectPool),
+    placePool: sanitizeTextPool(state.placePool)
+  };
 }
 function saveNow(alertUser=true) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persistentState())); } catch(e) {}
-  if(alertUser) flash('Shranjeno: osnutek + nabori. Po PDF klikni “Počisti osebne podatke”.');
+  if(alertUser) flash('Shranjeni so samo nabori. Trenutni sporazum se ob osvežitvi izbriše.');
 }
 function flash(msg) { const d=document.createElement('div'); d.textContent=msg; d.style.cssText='position:fixed;right:15px;bottom:15px;background:#111827;color:white;padding:10px 14px;border-radius:8px;z-index:200;'; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }
 function pct(n,total) { return (n/total*100).toFixed(4)+'%'; }
@@ -749,16 +767,77 @@ function renderWorkerList() {
     row.appendChild(cb); row.appendChild(name); row.appendChild(del); list.appendChild(row);
   });
 }
+function syncSelectedWorkersToLastPage() {
+  normalizeWorkerPool();
+  const startIndex = cleanText(state.quick?.odgovornaIzvajalca) ? 1 : 0;
+  const selected = getSelectedWorkersForDocument();
+
+  if(selected.length) {
+    writeWorkersToLastPage(selected, true, startIndex);
+  } else {
+    // Če ni označen nihče, počisti samo vrstice delavcev izvajalca.
+    // Odgovorna oseba izvajalca v prvi vrstici ostane pri miru.
+    for(let i=startIndex;i<10;i++) {
+      state.p7.delavci[i].ime='';
+      state.p7.delavci[i].rojstvo='';
+      state.p7.delavci[i].podpis='';
+    }
+  }
+  saveNow(false);
+  render();
+}
+
+function addContractorWorkerFromQuick() {
+  normalizeWorkerPool();
+  const inp=document.getElementById('qNewContractorWorker');
+  const name=cleanText(inp ? inp.value : '');
+  if(!name) return;
+
+  let worker=state.workerPool.find(w=>normName(w.ime)===normName(name));
+  if(worker) {
+    worker.izbran=true;
+  } else {
+    worker={ime:name, izbran:true};
+    state.workerPool.push(worker);
+  }
+
+  if(inp) inp.value='';
+  syncSelectedWorkersToLastPage();
+  renderWorkerSelect();
+  saveNow(false);
+}
+
 function renderWorkerSelect() {
   normalizeWorkerPool();
-  const sel=document.getElementById('qContractorWorkerSelect');
-  if(!sel) return;
-  const current=sel.value;
-  sel.innerHTML='<option value="">-- izberi delavca za dodajanje --</option>';
-  state.workerPool.forEach((w,i)=>{
-    const opt=document.createElement('option'); opt.value=String(i); opt.textContent=w.ime; sel.appendChild(opt);
+  const box=document.getElementById('qContractorWorkerChecks');
+  const summary=document.getElementById('workerDropdownSummary');
+  if(!box) return;
+  box.innerHTML='';
+
+  state.workerPool.forEach((w)=>{
+    if(!cleanText(w.ime)) return;
+    const label=document.createElement('label');
+    label.style.cssText='display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;cursor:pointer;';
+    const cb=document.createElement('input');
+    cb.type='checkbox';
+    cb.checked=!!w.izbran;
+    cb.style.cssText='width:20px;height:20px;flex:0 0 auto;';
+    cb.onchange=()=>{
+      w.izbran=cb.checked;
+      syncSelectedWorkersToLastPage();
+      renderWorkerSelect();
+    };
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(w.ime));
+    box.appendChild(label);
   });
-  if(current && sel.querySelector(`option[value="${current}"]`)) sel.value=current;
+
+  if(summary) {
+    const selected=state.workerPool.filter(w=>w.izbran && cleanText(w.ime)).map(w=>w.ime);
+    if(selected.length===0) summary.textContent='-- izberi delavce --';
+    else if(selected.length<=2) summary.textContent=selected.join(', ');
+    else summary.textContent=`Izbrani delavci: ${selected.length}`;
+  }
 }
 function selectAllWorkers(v) { normalizeWorkerPool(); state.workerPool.forEach(w=>w.izbran=v); saveNow(false); renderWorkerList(); renderWorkerSelect(); }
 function getSelectedWorkersForDocument() {
@@ -857,13 +936,30 @@ function renderElektroEmployeeList() {
   });
 }
 function renderElektroEmployeeSelect() {
-  normalizeElektroEmployeePool();
+  seedDefaultElektroEmployees();
+  const dl=document.getElementById('elektroEmployeeSuggestions');
+  if(dl) {
+    dl.innerHTML='';
+    state.elektroEmployeePool.forEach(w=>{
+      const name=cleanText(w.ime);
+      if(!name) return;
+      const o=document.createElement('option');
+      o.value=name;
+      dl.appendChild(o);
+    });
+  }
+
+  // Stari dropdown je odstranjen iz terenskega pogleda, zato tukaj končamo,
+  // če elementa ni. Urejanje nabora še vedno uporablja isti pool.
   const sel=document.getElementById('qElektroEmployeeSelect');
   if(!sel) return;
   const current=sel.value;
   sel.innerHTML='<option value="">-- izberi zaposlenega --</option>';
   state.elektroEmployeePool.forEach((w,i)=>{
-    const opt=document.createElement('option'); opt.value=String(i); opt.textContent=w.telefon ? `${w.ime} (${w.telefon})` : w.ime; sel.appendChild(opt);
+    const opt=document.createElement('option');
+    opt.value=String(i);
+    opt.textContent=w.telefon ? `${w.ime} (${w.telefon})` : w.ime;
+    sel.appendChild(opt);
   });
   if(current && sel.querySelector(`option[value="${current}"]`)) sel.value=current;
 }
@@ -900,24 +996,62 @@ function contractorLabel(c) {
 }
 function renderContractorSelect() {
   normalizeContractorPool();
-  const sel=document.getElementById('qContractorSelect');
-  if(!sel) return;
-  const curCompany=cleanText(state.quick?.izvajalec).toLowerCase();
-  const curResp=cleanText(state.quick?.odgovornaIzvajalca).toLowerCase();
-  sel.innerHTML='<option value="">-- izberi izvajalca --</option>';
+  seedDefaultContractorPool();
+
+  const dl=document.getElementById('contractorSuggestions');
+  if(!dl) return;
+
+  dl.innerHTML='';
   state.contractorPool.forEach((c,i)=>{
-    if(!cleanText(c.podjetje)) return;
+    const podjetje=cleanText(c.podjetje);
+    if(!podjetje) return;
     const opt=document.createElement('option');
-    opt.value=String(i);
-    opt.textContent=contractorLabel(c);
-    sel.appendChild(opt);
+    opt.value = c.odgovorna ? `${podjetje} — ${c.odgovorna}` : podjetje;
+    opt.dataset.index=String(i);
+    dl.appendChild(opt);
   });
-  const found=state.contractorPool.findIndex(c => cleanText(c.podjetje).toLowerCase()===curCompany && (!curResp || cleanText(c.odgovorna).toLowerCase()===curResp));
-  sel.value = found>=0 ? String(found) : '';
 }
 function bindContractorControls() {
-  const sel=document.getElementById('qContractorSelect');
-  if(sel) sel.addEventListener('change', ()=>{ if(sel.value!=='') applyContractorFromPool(Number(sel.value)); });
+  const inp=document.getElementById('qIzvajalec');
+  if(!inp || inp.dataset.contractorBound==='1') return;
+  inp.dataset.contractorBound='1';
+
+  const apply=()=>{
+    normalizeContractorPool();
+    seedDefaultContractorPool();
+
+    const typed=cleanText(inp.value);
+    if(!typed) {
+      state.quick.izvajalec='';
+      saveNow(false);
+      return;
+    }
+
+    const exact=state.contractorPool.findIndex(c =>
+      contractorLabel(c).toLowerCase()===typed.toLowerCase()
+    );
+
+    if(exact>=0) {
+      const c=state.contractorPool[exact];
+      state.quick.izvajalec=normalizeCompanyName(c.podjetje)||'';
+      state.quick.odgovornaIzvajalca=c.odgovorna||'';
+      state.quick.telIzvajalca=c.telefon||'';
+      inp.value=state.quick.izvajalec;
+
+      const resp=document.getElementById('qOdgovornaIzvajalca');
+      const tel=document.getElementById('qTelIzvajalca');
+      if(resp) resp.value=state.quick.odgovornaIzvajalca;
+      if(tel) tel.value=state.quick.telIzvajalca;
+    } else {
+      // Ročni vnos novega izvajalca.
+      state.quick.izvajalec=typed;
+    }
+
+    saveNow(false);
+  };
+
+  inp.addEventListener('change', apply);
+  inp.addEventListener('blur', apply);
 }
 function applyContractorFromPool(i) {
   normalizeContractorPool();
@@ -994,6 +1128,17 @@ function normalizeSitePool() {
 }
 function renderSiteSelect() {
   normalizeSitePool();
+  seedDefaultObjectPool();
+  const dl=document.getElementById('objectSuggestions');
+  if(dl) {
+    dl.innerHTML='';
+    state.objectPool.forEach(v=>{ const opt=document.createElement('option'); opt.value=v; dl.appendChild(opt); });
+  }
+  const placeDl=document.getElementById('placeSuggestions');
+  if(placeDl) {
+    placeDl.innerHTML='';
+    state.placePool.forEach(v=>{ const opt=document.createElement('option'); opt.value=v; placeDl.appendChild(opt); });
+  }
   const objSel=document.getElementById('qObjectSelect');
   const placeSel=document.getElementById('qPlaceSelect');
   const curObj=cleanText(state.quick?.objekt).toLowerCase();
@@ -1123,14 +1268,17 @@ function renderSiteList() {
 function toggleAppendices() { flash('Priloge 1–4 so odstranjene iz aplikacije, da je datoteka manjša. Hrani jih ločeno kot PDF v OneDrive.'); }
 function toggleClean() { document.body.classList.toggle('clean'); }
 function clearSensitiveData() {
-  if(!confirm('Počistim trenutni sporazum, podpise in datume rojstva? Vsi nabori ostanejo.')) return;
+  if(!confirm('Počistim trenutni sporazum? Nabori ostanejo.')) return;
+
+  // Enako kot osvežitev strani: svež prazen dokument,
+  // ohranijo se samo nabori.
   const contractorPool=sanitizeContractorPool(state.contractorPool);
-  const workerPool=sanitizeWorkerPool(state.workerPool);
+  const workerPool=sanitizeWorkerPool(state.workerPool).map(w => ({ime:w.ime, izbran:false}));
   const elektroEmployeePool=sanitizeElektroEmployeePool(state.elektroEmployeePool);
   const sitePool=sanitizeSitePool(state.sitePool);
   const objectPool=sanitizeTextPool(state.objectPool);
   const placePool=sanitizeTextPool(state.placePool);
-  const keepUkrep={...(state.ukrepOptions || {})};
+
   state=initialState();
   state.contractorPool=contractorPool;
   state.workerPool=workerPool;
@@ -1138,10 +1286,16 @@ function clearSensitiveData() {
   state.sitePool=sitePool;
   state.objectPool=objectPool;
   state.placePool=placePool;
-  state.ukrepOptions={...state.ukrepOptions, ...keepUkrep};
+
   saveNow(false);
-  render(); syncQuickForm(); renderSiteSelect(); renderContractorSelect(); renderWorkerSelect(); renderElektroEmployeeSelect();
-  flash('Osebni podatki trenutnega sporazuma so počiščeni. Nabori ostanejo.');
+  render();
+  syncQuickForm();
+  renderSiteSelect();
+  renderContractorSelect();
+  renderWorkerSelect();
+  renderElektroEmployeeSelect();
+
+  flash('Trenutni sporazum je počiščen. Nabori ostanejo.');
 }
 function clearAll() { clearSensitiveData(); }
 function clearEverything() {
@@ -1289,6 +1443,22 @@ function applySignatureForSamePerson(sourcePath, dataUrl) {
 
 function getQuickValue(path) { return getPath('quick.'+path)||''; }
 function setQuickValue(path, value) { state.quick[path]=value; saveNow(false); }
+function autofillElektroEmployeePhone(name) {
+  seedDefaultElektroEmployees();
+  const match = state.elektroEmployeePool.find(w => normName(w.ime) === normName(name));
+  if(!match) return false;
+
+  const phone = cleanText(match.telefon) || '07 620 53 30';
+  const telEl = document.getElementById('qTelElVarnost');
+  const uskTelEl = document.getElementById('qTelUsklajevalec');
+
+  state.quick.telElVarnost = phone;
+  state.quick.telUsklajevalec = phone;
+  if(telEl) telEl.value = phone;
+  if(uskTelEl) uskTelEl.value = phone;
+  return true;
+}
+
 function syncElektroSamePerson() {
   const nameEl=document.getElementById('qElVarnost');
   const telEl=document.getElementById('qTelElVarnost');
@@ -1348,7 +1518,12 @@ function bindQuickForm() {
       const oldKraj=state.quick.kraj || '';
       state.quick[key]=(id==='qDatum') ? (el.value || '') : el.value;
       if(id==='qKraj') syncKrajPodpisFromKraj(oldKraj);
-      if(id==='qElVarnost' || id==='qTelElVarnost') syncElektroSamePerson();
+      if(id==='qElVarnost') {
+        autofillElektroEmployeePhone(el.value);
+        syncElektroSamePerson();
+      } else if(id==='qTelElVarnost') {
+        syncElektroSamePerson();
+      }
       saveNow(false);
     });
   });
@@ -1469,6 +1644,166 @@ renderWorkerSelect();
 render();
 syncQuickForm();
 setTimeout(applyMobileZoom, 50);
+
+
+
+
+function refreshElektroEmployeeSuggestions() {
+  seedDefaultElektroEmployees();
+  const dl = document.getElementById('elektroEmployeeSuggestions');
+  if(!dl) return;
+  dl.innerHTML = '';
+  state.elektroEmployeePool.forEach(w => {
+    const o = document.createElement('option');
+    o.value = w.ime;
+    dl.appendChild(o);
+  });
+}
+
+function applyElektroEmployeePhone() {
+  const nameInput = document.getElementById('qElVarnost');
+  const phoneInput = document.getElementById('qTelElVarnost');
+  if(!nameInput || !phoneInput) return;
+  seedDefaultElektroEmployees();
+  const match = state.elektroEmployeePool.find(w => normName(w.ime) === normName(nameInput.value));
+  if(match) {
+    phoneInput.value = match.telefon || '07 620 53 30';
+    state.quick.elVarnost = nameInput.value;
+    state.quick.telElVarnost = phoneInput.value;
+    state.quick.usklajevalec = nameInput.value;
+    state.quick.telUsklajevalec = phoneInput.value;
+    saveNow(false);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  refreshElektroEmployeeSuggestions();
+  const nameInput = document.getElementById('qElVarnost');
+  if(nameInput && !nameInput.dataset.employeeSuggestBound) {
+    nameInput.dataset.employeeSuggestBound = '1';
+    nameInput.addEventListener('input', applyElektroEmployeePhone);
+    nameInput.addEventListener('change', applyElektroEmployeePhone);
+    nameInput.addEventListener('blur', applyElektroEmployeePhone);
+  }
+});
+
+</script>
+<script>
+(function(){
+  const employees = new Set([
+    "Križe Anton","Eršte Anton","Damjan Vovk","Potočar Mitja","Vidič Žan",
+    "Doblehar Andrej","Barbo Nejc","Kajin Simon","Matevž Fabijan","Brezovar Simon","Šmuc Rok"
+  ].map(x => x.toLocaleLowerCase('sl-SI')));
+
+  function fillEmployeePhone(){
+    const name = document.getElementById('qElVarnost');
+    const phone = document.getElementById('qTelElVarnost');
+    if(!name || !phone) return;
+    const key = (name.value || '').trim().toLocaleLowerCase('sl-SI');
+    if(employees.has(key)){
+      phone.value = '07 620 53 30';
+      if(window.state && state.quick){
+        state.quick.elVarnost = name.value.trim();
+        state.quick.telElVarnost = phone.value;
+        state.quick.usklajevalec = name.value.trim();
+        state.quick.telUsklajevalec = phone.value;
+        try { saveNow(false); } catch(e) {}
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const name = document.getElementById('qElVarnost');
+    if(!name) return;
+    name.addEventListener('input', fillEmployeePhone);
+    name.addEventListener('change', fillEmployeePhone);
+    name.addEventListener('blur', fillEmployeePhone);
+  });
+})();
+</script>
+<script>
+(function(){
+  function syncPlace(){
+    const kraj = document.getElementById('qKraj');
+    const krajPodpis = document.getElementById('qKrajPodpis');
+    if(!kraj || !krajPodpis) return;
+    krajPodpis.value = kraj.value || '';
+    if(window.state && state.quick){
+      state.quick.kraj = kraj.value || '';
+      state.quick.krajPodpis = kraj.value || '';
+      try { saveNow(false); } catch(e) {}
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    const kraj = document.getElementById('qKraj');
+    if(!kraj || kraj.dataset.placeSyncBound) return;
+    kraj.dataset.placeSyncBound='1';
+    kraj.addEventListener('input', syncPlace);
+    kraj.addEventListener('change', syncPlace);
+    kraj.addEventListener('blur', syncPlace);
+  });
+})();
+</script>
+<script>
+function addContractorWorkerNameToDocument(name) {
+  name = cleanText(name);
+  if(!name) return;
+
+  normalizeWorkerPool();
+  let w = state.workerPool.find(x => normName(x.ime) === normName(name));
+  if(!w) {
+    w = {ime:name, izbran:true};
+    state.workerPool.push(w);
+  } else {
+    w.izbran = true;
+  }
+
+  const responsible = normName(state.quick?.odgovornaIzvajalca || '');
+  const startIndex = responsible ? 1 : 0;
+
+  // Če je že na zadnjem listu, ga ne podvajaj.
+  if(state.p7.delavci.some(r => normName(r.ime) === normName(name))) {
+    saveNow(false);
+    return;
+  }
+
+  const idx = state.p7.delavci.findIndex((r,i) => i >= startIndex && !cleanText(r.ime));
+  if(idx >= 0) {
+    state.p7.delavci[idx].ime = name;
+    state.p7.delavci[idx].rojstvo = '';
+    state.p7.delavci[idx].podpis = '';
+  }
+
+  saveNow(false);
+  render();
+}
+
+function saveCurrentContractorWorkerToPool() {
+  const inp = document.getElementById('qContractorWorkerName');
+  const name = cleanText(inp ? inp.value : '');
+  if(!name) return;
+
+  normalizeWorkerPool();
+  let w = state.workerPool.find(x => normName(x.ime) === normName(name));
+  if(!w) state.workerPool.push({ime:name, izbran:false});
+
+  saveNow(false);
+  if(inp) inp.value='';
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const inp = document.getElementById('qContractorWorkerName');
+  if(!inp) return;
+
+  function apply(){
+    const name = cleanText(inp.value);
+    if(!name) return;
+    addContractorWorkerNameToDocument(name);
+  }
+
+  inp.addEventListener('change', apply);
+  inp.addEventListener('blur', apply);
+});
 </script>
 </body>
 </html>
