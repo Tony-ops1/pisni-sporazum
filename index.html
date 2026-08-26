@@ -119,6 +119,17 @@ body.clean .sig button { opacity:0; }
   .quickForm h2 { font-size:16px; }
   .quickGrid { grid-template-columns: 1fr; gap:8px; }
   .checkGrid { grid-template-columns: 1fr; }
+  .quickGrid { grid-template-columns: 1fr; gap:8px; }
+.quickGrid label { min-width:0; }
+
+.quickGrid input[type="date"] {
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  display:block;
+}
+
+.quickGrid input { font-size:16px; padding:11px; }
   .quickGrid input { font-size:16px; padding:11px; }
   .quickButtons button { flex:1 1 45%; padding:11px 8px; font-size:14px; }
 
