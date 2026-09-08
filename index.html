@@ -224,7 +224,7 @@ body.clean .sig button { opacity:0; }
   <strong>Pisni sporazum – Elektro LJ</strong>
   <button onclick="prepareFromQuickForm()">1. Pripravi dokument</button>
   <button class="primary" onclick="saveNow()">Shrani</button>
-  <button onclick="printAndOfferClean()">PDF</button>
+  <button onclick="printAndOfferClean()">Deli PDF</button>
   <button class="danger" onclick="clearSensitiveData()">Počisti osebne podatke</button>
   <details>
     <summary>Varnostna kopija</summary>
@@ -303,7 +303,7 @@ body.clean .sig button { opacity:0; }
 
   <div class="quickButtons">
     <button class="primary" onclick="prepareFromQuickForm()">Pripravi dokument</button>
-      <button onclick="printAndOfferClean()">Shrani PDF</button>
+      <button onclick="printAndOfferClean()">Deli PDF</button>
   </div>
 </section>
 
@@ -1342,13 +1342,121 @@ function clearEverything() {
     flash('Vse je počiščeno.');
   }
 }
-function printAndOfferClean() {
-  window.print();
-  setTimeout(()=>{
-    if(confirm('Ko PDF shraniš v službeni OneDrive/Datoteke, naj aplikacija počisti trenutne podpise, datume rojstva in vnose?')) {
-      clearSensitiveData();
+function loadHtml2PdfForShare() {
+  return new Promise((resolve, reject) => {
+    if(window.html2pdf) { resolve(); return; }
+    const existing = document.getElementById('html2pdfShareLib');
+    if(existing) {
+      existing.addEventListener('load', resolve, {once:true});
+      existing.addEventListener('error', reject, {once:true});
+      return;
     }
-  }, 1200);
+    const script = document.createElement('script');
+    script.id = 'html2pdfShareLib';
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+async function printAndOfferClean() {
+  let pdfStyle = null;
+  try {
+    await loadHtml2PdfForShare();
+
+    pdfStyle = document.createElement('style');
+    pdfStyle.id = 'pdfShareStyle';
+    pdfStyle.textContent = `
+      body.pdfShareMode .document {
+        width:210mm !important;
+        max-width:210mm !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow:visible !important;
+        display:block !important;
+      }
+      body.pdfShareMode .page {
+        width:210mm !important;
+        height:297mm !important;
+        margin:0 !important;
+        box-shadow:none !important;
+        overflow:hidden !important;
+        transform:none !important;
+        page-break-after:always !important;
+        break-after:page !important;
+      }
+      body.pdfShareMode .page:last-child {
+        page-break-after:auto !important;
+        break-after:auto !important;
+      }
+      body.pdfShareMode .field,
+      body.pdfShareMode .area {
+        font-size:10.6pt !important;
+        line-height:1.18 !important;
+        font-weight:500 !important;
+      }
+      body.pdfShareMode .field.small { font-size:10pt !important; }
+      body.pdfShareMode .field.tiny { font-size:9pt !important; }
+      body.pdfShareMode .field.tableDate { font-size:8.8pt !important; }
+      body.pdfShareMode .field.finalDate { font-size:9.2pt !important; }
+      body.pdfShareMode .sig button { display:none !important; }
+    `;
+    document.head.appendChild(pdfStyle);
+    document.body.classList.add('pdfShareMode', 'clean');
+
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    const documentEl = document.querySelector('.document');
+    if(!documentEl) throw new Error('Dokument ni najden.');
+
+    const blob = await window.html2pdf()
+      .set({
+        margin: 0,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      })
+      .from(documentEl)
+      .outputPdf('blob');
+
+    const file = new File([blob], 'pisni-sporazum.pdf', { type:'application/pdf' });
+
+    if(navigator.share && (!navigator.canShare || navigator.canShare({ files:[file] }))) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Pisni sporazum'
+        });
+      } catch(shareError) {
+        if(shareError && shareError.name === 'AbortError') return;
+        throw shareError;
+      }
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pisni-sporazum.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+    }
+
+    setTimeout(() => {
+      if(confirm('Ko PDF shraniš ali deliš, naj aplikacija počisti trenutne podpise, datume rojstva in vnose?')) {
+        clearSensitiveData();
+      }
+    }, 100);
+  } catch(err) {
+    console.error('Deljenje PDF ni uspelo:', err);
+    alert('Neposredno deljenje PDF na tej napravi ni uspelo. Odpiram običajno shranjevanje/tiskanje PDF.');
+    window.print();
+  } finally {
+    document.body.classList.remove('pdfShareMode', 'clean');
+    if(pdfStyle) pdfStyle.remove();
+  }
 }
 function exportData() {
   saveNow(false);
