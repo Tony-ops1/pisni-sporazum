@@ -224,6 +224,7 @@ body.clean .sig button { opacity:0; }
   <strong>Pisni sporazum – Elektro LJ</strong>
   <button onclick="prepareFromQuickForm()">1. Pripravi dokument</button>
   <button class="primary" onclick="saveNow()">Shrani</button>
+  <button onclick="restoreSavedDocument()">Naloži shranjeno</button>
   <button onclick="printAndOfferClean()">Deli PDF</button>
   <button class="danger" onclick="clearSensitiveData()">Počisti osebne podatke</button>
   <details>
@@ -634,6 +635,32 @@ function saveNow(alertUser=true) {
   documentSavedAt=Date.now();
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persistentState())); } catch(e) {}
   if(alertUser) flash('Obrazec je shranjen za 48 ur od zadnje spremembe.');
+}
+function restoreSavedDocument() {
+  try {
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
+    if(!saved || !saved.document || !Number.isFinite(saved.documentSavedAt) ||
+       saved.documentSavedAt<=0 || saved.documentSavedAt>Date.now() ||
+       Date.now()-saved.documentSavedAt>=DOCUMENT_TTL_MS) {
+      alert('Ni shranjenega obrazca za obnovitev (ali je poteklo 48 ur).');
+      return;
+    }
+    if(!confirm('Naložim shranjeni obrazec? Trenutni vnosi bodo zamenjani.')) return;
+    const fresh=initialState();
+    for(const key of ['quick','ukrepOptions','p5','p6','p7']) {
+      if(saved.document[key]) state[key]=mergeDeep(fresh[key],saved.document[key]);
+    }
+    documentSavedAt=saved.documentSavedAt;
+    render();
+    syncQuickForm();
+    renderSiteSelect();
+    renderContractorSelect();
+    renderWorkerSelect();
+    renderElektroEmployeeSelect();
+    flash('Shranjeni obrazec je naložen.');
+  } catch(e) {
+    alert('Shranjeni obrazec ni mogoče naložiti.');
+  }
 }
 function flash(msg) { const d=document.createElement('div'); d.textContent=msg; d.style.cssText='position:fixed;right:15px;bottom:15px;background:#111827;color:white;padding:10px 14px;border-radius:8px;z-index:200;'; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }
 function pct(n,total) { return (n/total*100).toFixed(4)+'%'; }
