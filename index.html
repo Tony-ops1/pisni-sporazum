@@ -637,30 +637,23 @@ function saveNow(alertUser=true) {
   if(alertUser) flash('Obrazec je shranjen za 48 ur od zadnje spremembe.');
 }
 function restoreSavedDocument() {
+  let saved;
   try {
-    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
-    if(!saved || !saved.document || !Number.isFinite(saved.documentSavedAt) ||
-       saved.documentSavedAt<=0 || saved.documentSavedAt>Date.now() ||
-       Date.now()-saved.documentSavedAt>=DOCUMENT_TTL_MS) {
-      alert('Ni shranjenega obrazca za obnovitev (ali je poteklo 48 ur).');
-      return;
-    }
-    if(!confirm('Naložim shranjeni obrazec? Trenutni vnosi bodo zamenjani.')) return;
-    const fresh=initialState();
-    for(const key of ['quick','ukrepOptions','p5','p6','p7']) {
-      if(saved.document[key]) state[key]=mergeDeep(fresh[key],saved.document[key]);
-    }
-    documentSavedAt=saved.documentSavedAt;
-    render();
-    syncQuickForm();
-    renderSiteSelect();
-    renderContractorSelect();
-    renderWorkerSelect();
-    renderElektroEmployeeSelect();
-    flash('Shranjeni obrazec je naložen.');
+    saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
   } catch(e) {
-    alert('Shranjeni obrazec ni mogoče naložiti.');
+    alert('Shranjeni podatki so poškodovani in jih ni mogoče prebrati.');
+    return;
   }
+  if(!saved || !saved.document || !Number.isFinite(saved.documentSavedAt) ||
+     saved.documentSavedAt<=0 || saved.documentSavedAt>Date.now() ||
+     Date.now()-saved.documentSavedAt>=DOCUMENT_TTL_MS) {
+    alert('Ni shranjenega obrazca za obnovitev (ali je poteklo 48 ur).');
+    return;
+  }
+  if(!confirm('Naložim shranjeni obrazec? Trenutni vnosi bodo zamenjani.')) return;
+  // Ob odprtju loadState obnovi dokument; osvežitev prepreči napake
+  // zaradi ponovnega risanja že odprtega obrazca.
+  window.location.reload();
 }
 function flash(msg) { const d=document.createElement('div'); d.textContent=msg; d.style.cssText='position:fixed;right:15px;bottom:15px;background:#111827;color:white;padding:10px 14px;border-radius:8px;z-index:200;'; document.body.appendChild(d); setTimeout(()=>d.remove(),1300); }
 function pct(n,total) { return (n/total*100).toFixed(4)+'%'; }
