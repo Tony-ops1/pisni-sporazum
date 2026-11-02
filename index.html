@@ -227,12 +227,7 @@ body.clean .sig button { opacity:0; }
   <button onclick="restoreSavedDocument()">Naloži shranjeno</button>
   <button onclick="printAndOfferClean()">Deli PDF</button>
   <button class="danger" onclick="clearSensitiveData()">Počisti osebne podatke</button>
-  <details>
-    <summary>Varnostna kopija</summary>
-    <button onclick="exportData()">Izvozi varnostno kopijo</button>
-    <label>Uvozi podatke <input type="file" accept="application/json" style="display:none" onchange="importData(event)"></label>
-    <button onclick="clearEverything()">Počisti tudi nabor</button>
-  </details>
+  <button onclick="clearEverything()">Počisti tudi nabor</button>
 </div>
 
 <section class="quickForm" id="quickForm">
